@@ -1,0 +1,395 @@
+{
+  "skincare_ingredients": [
+    {
+      "name": "Salicylic Acid",
+      "concerns": [
+        "acne",
+        "oiliness",
+        "enlarged_pores",
+        "comedones",
+        "uneven_texture",
+        "psoriasis"
+      ],
+      "skinTypes": ["oily", "acne_prone", "combination"],
+      "sideEffects": ["dryness", "irritation", "peeling", "sun_sensitivity"],
+      "avoidCombining": ["retinoids", "strong_acids", "benzoyl_peroxide"],
+      "notes": "Start slowly when combining with retinoids"
+    },
+    {
+      "name": "Niacinamide",
+      "alt_names": ["Vitamin B3"],
+      "concerns": [
+        "rosacea",
+        "oiliness",
+        "enlarged_pores",
+        "uneven_skin_tone",
+        "hyperpigmentation"
+      ],
+      "skinTypes": ["all", "oily", "sensitive"],
+      "sideEffects": [
+        "flushing_at_high_concentrations",
+        "rare_allergic_reactions"
+      ],
+      "avoidCombining": ["vitamin_c"],
+      "notes": "Timing separation recommended with Vitamin C"
+    },
+    {
+      "name": "Glycolic Acid",
+      "concerns": [
+        "premature_aging",
+        "fine_lines",
+        "uneven_texture",
+        "dullness",
+        "hyperpigmentation"
+      ],
+      "skinTypes": ["normal", "oily", "thick_skin"],
+      "sideEffects": [
+        "irritation",
+        "redness",
+        "sun_sensitivity",
+        "over_exfoliation"
+      ],
+      "avoidCombining": ["retinoids", "other_acids", "benzoyl_peroxide"],
+      "notes": "Start slowly with retinoids and other acids"
+    },
+    {
+      "name": "Caffeine",
+      "concerns": ["dark_circles", "eye_bags", "puffiness", "poor_circulation"],
+      "skinTypes": ["all"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Especially effective around eye area"
+    },
+    {
+      "name": "Lactic Acid",
+      "concerns": [
+        "premature_aging",
+        "fine_lines",
+        "uneven_texture",
+        "dullness",
+        "gentle_exfoliation"
+      ],
+      "skinTypes": ["all", "dry", "sensitive"],
+      "sideEffects": ["mild_irritation", "sun_sensitivity"],
+      "avoidCombining": ["retinoids", "strong_acids"],
+      "notes": "Start slowly with other acids"
+    },
+    {
+      "name": "Hyaluronic Acid",
+      "concerns": ["dryness", "fine_lines", "premature_aging", "dehydration"],
+      "skinTypes": ["all", "dry", "mature"],
+      "sideEffects": ["extremely_rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Highly compatible with other ingredients"
+    },
+    {
+      "name": "Ascorbic Acid",
+      "alt_names": ["Vitamin C", "L-Ascorbic Acid"],
+      "concerns": [
+        "hyperpigmentation",
+        "dullness",
+        "sun_damage",
+        "premature_aging",
+        "dark_spots"
+      ],
+      "skinTypes": ["all", "damaged_skin", "aging_skin"],
+      "sideEffects": ["irritation", "oxidation", "initial_stinging"],
+      "avoidCombining": ["retinoids", "benzoyl_peroxide", "niacinamide"],
+      "notes": "Use timing separation with other actives"
+    },
+    {
+      "name": "Retinol",
+      "concerns": [
+        "premature_aging",
+        "fine_lines",
+        "uneven_texture",
+        "hyperpigmentation",
+        "acne"
+      ],
+      "skinTypes": ["all", "normal", "oily"],
+      "sideEffects": ["irritation", "dryness", "peeling", "sun_sensitivity"],
+      "avoidCombining": ["ahas", "bhas", "benzoyl_peroxide", "vitamin_c"],
+      "notes": "Start slowly, use at night, always use SPF"
+    },
+    {
+      "name": "Urea",
+      "concerns": ["dryness", "uneven_texture", "psoriasis", "calluses"],
+      "skinTypes": ["dry", "rough", "thick_skin"],
+      "sideEffects": ["stinging_on_broken_skin", "rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "May sting on compromised skin barrier"
+    },
+    {
+      "name": "Titanium Dioxide",
+      "concerns": [
+        "sun_damage",
+        "skin_cancer_prevention",
+        "physical_sun_protection"
+      ],
+      "skinTypes": ["all", "sensitive"],
+      "sideEffects": ["white_cast", "potential_pore_clogging"],
+      "avoidCombining": [],
+      "notes": "Physical sunscreen ingredient"
+    },
+    {
+      "name": "Retinyl Palmitate",
+      "concerns": ["premature_aging", "fine_lines", "uneven_texture"],
+      "skinTypes": ["all", "beginners_to_retinoids"],
+      "sideEffects": ["mild_irritation"],
+      "avoidCombining": ["ahas", "bhas", "benzoyl_peroxide", "vitamin_c"],
+      "notes": "Gentler than retinol, good for beginners"
+    },
+    {
+      "name": "Centella Asiatica",
+      "concerns": ["rosacea", "dermatitis", "inflammation", "sensitive_skin"],
+      "skinTypes": ["sensitive", "irritated", "rosacea_prone"],
+      "sideEffects": ["extremely_rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Very gentle and soothing"
+    },
+    {
+      "name": "Chamomile",
+      "concerns": ["rosacea", "dermatitis", "inflammation", "irritation"],
+      "skinTypes": ["sensitive", "irritated", "rosacea_prone"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "May cause reactions in those with ragweed allergies"
+    },
+    {
+      "name": "Vitamin C",
+      "alt_names": ["Ascorbic Acid"],
+      "concerns": [
+        "hyperpigmentation",
+        "dullness",
+        "sun_damage",
+        "premature_aging"
+      ],
+      "skinTypes": ["all", "damaged_skin"],
+      "sideEffects": ["irritation", "sensitivity", "oxidation"],
+      "avoidCombining": ["retinoids", "ahas", "benzoyl_peroxide"],
+      "notes": "Use timing separation with other actives"
+    },
+    {
+      "name": "Magnesium Ascorbyl Phosphate",
+      "alt_names": ["Stable Vitamin C"],
+      "concerns": ["hyperpigmentation", "dullness", "sun_damage"],
+      "skinTypes": ["all", "sensitive"],
+      "sideEffects": ["less_irritating_than_l_ascorbic_acid"],
+      "avoidCombining": [],
+      "notes": "More stable and gentler than L-Ascorbic Acid"
+    },
+    {
+      "name": "Collagen",
+      "concerns": [
+        "premature_aging",
+        "fine_lines",
+        "dryness",
+        "loss_of_elasticity"
+      ],
+      "skinTypes": ["mature", "dry", "aging_skin"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Topical collagen mainly provides moisturizing benefits"
+    },
+    {
+      "name": "Shea Butter",
+      "concerns": ["dryness", "dermatitis", "inflammation", "barrier_repair"],
+      "skinTypes": ["dry", "sensitive", "irritated"],
+      "sideEffects": ["rare_tree_nut_allergies"],
+      "avoidCombining": [],
+      "notes": "Excellent for barrier repair"
+    },
+    {
+      "name": "Avobenzone",
+      "concerns": ["sun_damage", "skin_cancer_prevention", "uva_protection"],
+      "skinTypes": ["all"],
+      "sideEffects": ["rare_allergic_reactions", "can_degrade"],
+      "avoidCombining": ["certain_oils"],
+      "notes": "Chemical sunscreen, avoid oils that can break it down"
+    },
+    {
+      "name": "Phytic Acid",
+      "concerns": ["uneven_texture", "hyperpigmentation", "gentle_exfoliation"],
+      "skinTypes": ["all", "sensitive"],
+      "sideEffects": ["mild_irritation"],
+      "avoidCombining": ["strong_acids"],
+      "notes": "Gentler than glycolic acid"
+    },
+    {
+      "name": "Zinc Oxide",
+      "concerns": ["sun_damage", "skin_cancer_prevention", "acne", "oily_skin"],
+      "skinTypes": ["all", "acne_prone", "sensitive"],
+      "sideEffects": ["white_cast", "potential_dryness"],
+      "avoidCombining": [],
+      "notes": "Physical sunscreen with anti-acne properties"
+    },
+    {
+      "name": "Tartaric Acid",
+      "concerns": ["uneven_texture", "dullness", "gentle_exfoliation"],
+      "skinTypes": ["normal", "oily"],
+      "sideEffects": ["mild_irritation"],
+      "avoidCombining": ["strong_acids"],
+      "notes": "AHA derived from grapes"
+    },
+    {
+      "name": "Mandelic Acid",
+      "concerns": [
+        "uneven_texture",
+        "hyperpigmentation",
+        "acne",
+        "gentle_exfoliation"
+      ],
+      "skinTypes": ["all", "sensitive", "dark_skin"],
+      "sideEffects": ["mild_irritation"],
+      "avoidCombining": ["strong_acids"],
+      "notes": "Gentlest AHA, good for sensitive skin"
+    },
+    {
+      "name": "Bakuchiol",
+      "concerns": ["premature_aging", "fine_lines"],
+      "skinTypes": ["all", "sensitive"],
+      "sideEffects": ["very_rare_reactions"],
+      "avoidCombining": [],
+      "notes": "Natural retinol alternative, pregnancy-safe"
+    },
+    {
+      "name": "Malic Acid",
+      "concerns": ["uneven_texture", "dullness", "gentle_exfoliation"],
+      "skinTypes": ["normal", "oily"],
+      "sideEffects": ["mild_irritation"],
+      "avoidCombining": ["strong_acids"],
+      "notes": "AHA derived from apples"
+    },
+    {
+      "name": "Azelaic Acid",
+      "concerns": ["acne", "rosacea", "hyperpigmentation", "uneven_texture"],
+      "skinTypes": ["acne_prone", "rosacea", "sensitive"],
+      "sideEffects": ["mild_irritation", "initial_tingling"],
+      "avoidCombining": [],
+      "notes": "Well-tolerated with other ingredients"
+    },
+    {
+      "name": "Octinoxate",
+      "concerns": ["sun_damage", "skin_cancer_prevention", "uvb_protection"],
+      "skinTypes": ["all"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Chemical sunscreen ingredient"
+    },
+    {
+      "name": "Arbutin",
+      "concerns": ["hyperpigmentation", "liver_spots", "uneven_skin_tone"],
+      "skinTypes": ["all", "dark_spots"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Natural skin lightening agent"
+    },
+    {
+      "name": "Tranexamic Acid",
+      "concerns": ["hyperpigmentation", "liver_spots", "melasma"],
+      "skinTypes": ["all", "stubborn_pigmentation"],
+      "sideEffects": ["very_rare_reactions"],
+      "avoidCombining": [],
+      "notes": "Effective for stubborn melasma"
+    },
+    {
+      "name": "Kojic Acid",
+      "concerns": ["hyperpigmentation", "liver_spots", "dullness"],
+      "skinTypes": ["all", "pigmentation_issues"],
+      "sideEffects": ["skin_sensitivity", "potential_irritation"],
+      "avoidCombining": ["strong_lightening_agents"],
+      "notes": "Use cautiously with other lightening ingredients"
+    },
+    {
+      "name": "Benzoyl Peroxide",
+      "concerns": ["acne", "hormonal_acne", "bacterial_acne"],
+      "skinTypes": ["oily", "acne_prone"],
+      "sideEffects": ["dryness", "bleaching_fabrics", "irritation"],
+      "avoidCombining": ["retinoids", "vitamin_c", "acids"],
+      "notes": "Can bleach fabrics and hair"
+    },
+    {
+      "name": "Sulfur",
+      "concerns": ["acne", "oiliness", "rosacea"],
+      "skinTypes": ["oily", "acne_prone", "rosacea"],
+      "sideEffects": ["drying", "strong_odor", "potential_irritation"],
+      "avoidCombining": [],
+      "notes": "Has distinctive sulfur smell"
+    },
+    {
+      "name": "Green Tea Extract",
+      "concerns": [
+        "rosacea",
+        "inflammation",
+        "oiliness",
+        "antioxidant_protection"
+      ],
+      "skinTypes": ["all", "oily", "sensitive"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Rich in antioxidants"
+    },
+    {
+      "name": "Alpha Arbutin",
+      "concerns": ["hyperpigmentation", "liver_spots", "dullness"],
+      "skinTypes": ["all", "pigmentation_issues"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "More stable than regular arbutin"
+    },
+    {
+      "name": "Vitamin K",
+      "concerns": ["dark_circles", "bruising", "capillary_strength"],
+      "skinTypes": ["all", "around_eyes"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": ["blood_thinning_medications"],
+      "notes": "Consult doctor if on blood thinners"
+    },
+    {
+      "name": "Calamine",
+      "concerns": ["hives", "dermatitis", "itching", "soothing"],
+      "skinTypes": ["irritated", "inflamed"],
+      "sideEffects": ["drying", "rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Traditional soothing ingredient"
+    },
+    {
+      "name": "Licorice Root Extract",
+      "concerns": ["hyperpigmentation", "inflammation", "soothing"],
+      "skinTypes": ["all", "sensitive", "pigmentation_issues"],
+      "sideEffects": ["rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Natural anti-inflammatory"
+    },
+    {
+      "name": "Allantoin",
+      "concerns": ["dermatitis", "inflammation", "dryness", "wound_healing"],
+      "skinTypes": ["all", "sensitive", "damaged"],
+      "sideEffects": ["extremely_rare_allergic_reactions"],
+      "avoidCombining": [],
+      "notes": "Highly compatible and gentle"
+    },
+    {
+      "name": "Squalane",
+      "concerns": ["dryness", "premature_aging", "barrier_repair"],
+      "skinTypes": ["all", "dry", "sensitive"],
+      "sideEffects": ["extremely_rare_reactions"],
+      "avoidCombining": [],
+      "notes": "Biomimetic oil, highly compatible"
+    },
+    {
+      "name": "Glycerin",
+      "concerns": ["dryness", "dehydration", "barrier_support"],
+      "skinTypes": ["all", "dry"],
+      "sideEffects": ["stickiness_in_humid_climates"],
+      "avoidCombining": [],
+      "notes": "Use with occlusive in dry climates"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-06-17",
+    "total_ingredients": 38,
+    "data_source": "skincare_products_analysis"
+  }
+}
