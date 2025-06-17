@@ -10,16 +10,27 @@ export function POST(req: Request) {
     console.log("Ingredients", data);
 
     //query db for facewash with specified ingredient
+    //const facewash =
 
     //query db for toner with specified ingredient
+    //const toner =
 
     //query db for serum with specified ingredient
+    //const serum =
 
     //query db for moisturizer with specified ingredient
+    //const moisturizer =
 
     //query db for sunscreen with specified ingredient
+    //const sunscreen =
+
+    //const recommendations = [facewash, toner, serum, moisturizer, sunscreen]
 
     return new Response();
+
+    //pass data to recommendations component
+
+    //pass
   } catch (error: any) {
     return new Response("Query failed", error);
   }
