@@ -10,15 +10,20 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "algoliasearch": "^4.17.2",
     "convex": "^1.24.8",
     "next": "15.3.3",
+    "papaparse": "^5.5.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-instantsearch": "^7.16.0",
+    "react-instantsearch-hooks-web": "^6.47.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/papaparse": "^5.3.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

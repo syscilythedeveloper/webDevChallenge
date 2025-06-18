@@ -14,8 +14,26 @@ The return is a list of products that match the search query.
 
 import React from "react";
 
+const dummyProducts = [
+  { name: "HydraGlow Serum", price: "$38" },
+  { name: "MatteFix Moisturizer", price: "$42" },
+  { name: "ClearTone Cleanser", price: "$26" },
+];
+
 const Products = () => {
-  return <div>Products</div>;
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {dummyProducts.map((product, idx) => (
+        <div
+          key={idx}
+          className="p-4 border border-gray-200 rounded-lg shadow hover:shadow-md transition"
+        >
+          <h2 className="text-lg font-semibold">{product.name}</h2>
+          <p className="text-sm text-gray-600">{product.price}</p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Products;
