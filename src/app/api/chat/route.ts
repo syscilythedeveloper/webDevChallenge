@@ -11,10 +11,11 @@ Data FROM here will be passed to the Recommendations component, which will then 
 */
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
-//import skincare-ingredients from ""
+//import skincareIngredients from "../../data/skincareIngredients.json";
 
 export async function POST(req: Request) {
   try {
+    //console.log("Skincare ingredients data:", skincareIngredients);
     const data = await req.json();
     console.log("Request data:", data);
     /* PROMPT 
@@ -31,16 +32,10 @@ export async function POST(req: Request) {
     moisturizer: ingredients(s)
     sunscreen: ingredients(s)
 
-  
-    */
-
-    /*
     functions 
     - getIngredients 
     -update chatBox
     - make Post Request 
-
-    
     */
 
     const prompt = `

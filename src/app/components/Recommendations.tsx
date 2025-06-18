@@ -9,7 +9,7 @@ The recommendations component will be a simple component that displays the produ
 
 */
 import React, { useMemo } from "react";
-import ingredientsData from "../data/skincare-ingredients.json";
+import ingredientsData from "../data/skincareIngredients.json";
 
 const Recommendations = ({ query = "" }) => {
   const cleanQuery = query.toLowerCase().trim();
@@ -34,11 +34,14 @@ const Recommendations = ({ query = "" }) => {
 
   return (
     <div className="text-left mt-10">
-      <h3 className="text-xl font-semibold mb-3">AI-Powered Ingredient Suggestions</h3>
+      <h3 className="text-xl font-semibold mb-3">
+        AI-Powered Ingredient Suggestions
+      </h3>
       {matchedIngredients.length > 0 ? (
         <div className="bg-blue-50 p-4 rounded shadow-sm">
           <p>
-            Based on your search for <strong>"{query}"</strong>, consider looking for products with:
+            Based on your search for <strong>{query}</strong>, consider looking
+            for products with:
           </p>
           <ul className="list-disc list-inside mt-2">
             {matchedIngredients.map((ing) => (
