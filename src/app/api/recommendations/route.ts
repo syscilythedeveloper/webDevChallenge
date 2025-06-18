@@ -1,4 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/*
+This component is used to handle the POST request for recommendations.
+It will take the user input from the chatbox and query the Convex database for products that match the ingredients.
+
+*/
+
 //import { useQuery } from "convex/react";
 
 export function POST(req: Request) {

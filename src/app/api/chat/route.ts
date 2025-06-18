@@ -1,3 +1,15 @@
+/*
+This component is the API route for the chat feature.
+It uses the Google Generative AI to generate a skincare regimen based on user input.
+It processes the request, generates a list of needed skincare ingredients based on the user concerns, 
+This will be used to recommend products in the Recommendations component.
+---The input here is user data, which includes their skin concerns.
+The return is a list of ingredients that the user will need to solve their skincare problem.
+Data FROM here will be passed to the Recommendations component, which will then query the Convex database for products that match the ingredients.
+
+
+*/
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 //import skincare-ingredients from ""
 
