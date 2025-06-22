@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
 The user will have conversation with chatbox (/api/chat)
 Chatbox will be a simple component that displays messages and allows the user to send new messages.
 The input is user data
-The return  is a list of ingredients that the user will need to solve the skincare problem (NOT VISUAL) 
+The return  is a list of ingredients that the user will need to solve the skincare problem (NOT VISUAL)
 ----this will send a POST request to /api/recommendations, which will search the convex db for products with the specified ingredients
 The recommendations component will display the products that match the ingredients
 The user will then be able to add the products to their cart
+
 
 */
 "use client";
@@ -13,20 +15,28 @@ The user will then be able to add the products to their cart
 import { Button, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { useState, useRef, useEffect } from "react";
-
 import React from "react";
 
 const Chatbox = () => {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: `👋 How can I help you find the right skincare?`,
+      content: `👋 Ready to build your perfect skincare routine?\nLet's start with your main skin concerns...`,
     },
   ]);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [ellipsis, setEllipsis] = useState(".");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  type Routine = {
+    cleanser?: string;
+    toner?: string;
+    serum?: string;
+    moisturizer?: string;
+    sunscreen?: string;
+  };
+
+  const [routine, setRoutine] = useState<Routine | null>(null);
 
   useEffect(() => {
     if (!isLoading) return;
@@ -39,11 +49,12 @@ const Chatbox = () => {
   const sendMessage = async () => {
     if (message.trim() === "") return;
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
+    const newMessages = [
+      ...messages,
       { role: "user", content: message },
       { role: "assistant", content: "" },
-    ]);
+    ];
+    setMessages(newMessages);
     setMessage("");
     setIsLoading(true);
 
@@ -51,31 +62,26 @@ const Chatbox = () => {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([
-          { ...messages },
-          { role: "user", content: message },
-        ]),
+        body: JSON.stringify({ messages: newMessages }),
       });
 
       if (!response.ok) throw new Error("Network response was not ok");
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
+      const data = await response.json();
+      const { aiResponse, routine } = data;
 
-      if (reader) {
-        let accumulatedText = "";
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const text = decoder.decode(value, { stream: true });
-          accumulatedText += text;
-          setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages];
-            const lastMessageIndex = updatedMessages.length - 1;
-            updatedMessages[lastMessageIndex].content = accumulatedText;
-            return updatedMessages;
-          });
-        }
+      // Update assistant message with the response
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1].content = aiResponse;
+        return updated;
+      });
+
+      // Pass routine to parent component
+      if (routine) {
+        console.log("Routine passed from chat agent!:", routine);
+
+        setRoutine(routine);
       }
     } catch (error) {
       console.error("Failed to send or receive message:", error);
@@ -86,17 +92,7 @@ const Chatbox = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 w-72 h-80 bg-white border border-gray-300 rounded-lg shadow-lg p-4 flex flex-col">
-      {/* <div className="text-sm font-semibold mb-2">Ask Ultai</div>
-      <div className="flex-1 overflow-y-auto text-sm text-gray-700">
-        <p>👋 How can I help you find the right skincare?</p>
-      </div>
-      <input
-        type="text"
-        placeholder="Type your question..."
-        className="mt-2 p-2 border rounded focus:outline-none focus:ring"
-      /> */}
-
+    <div className="fixed bottom-6 right-6 w-100 h-150 bg-white border border-gray-300 rounded-lg shadow-lg p-4 flex flex-col">
       <Box
         width="100%"
         height="100%"
@@ -153,9 +149,10 @@ const Chatbox = () => {
             direction="row"
             spacing={2}
             className="bg-white/95 rounded-b-xl p-2"
-          ></Stack>
+          />
         </Stack>
       </Box>
+
       <div className="absolute bottom-5 w-full flex items-center flex-end gap-2 p-4 bg-white border-t border-gray-200">
         <TextField
           label="Message"
@@ -178,6 +175,35 @@ const Chatbox = () => {
           Send
         </Button>
       </div>
+      {routine && (
+        <Box
+          mt={2}
+          p={2}
+          bgcolor="#f7fafc"
+          borderRadius={2}
+          boxShadow={1}
+          className="prose prose-lg max-w-none"
+        >
+          <h3>Your Personalized Skincare Routine</h3>
+          <ul>
+            <li>
+              <strong>Cleanser:</strong> {routine.cleanser}
+            </li>
+            <li>
+              <strong>Toner:</strong> {routine.toner}
+            </li>
+            <li>
+              <strong>Serum:</strong> {routine.serum}
+            </li>
+            <li>
+              <strong>Moisturizer:</strong> {routine.moisturizer}
+            </li>
+            <li>
+              <strong>Sunscreen:</strong> {routine.sunscreen}
+            </li>
+          </ul>
+        </Box>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
 This component is the API route for the chat feature.
 It uses the Google Generative AI to generate a skincare regimen based on user input.
@@ -11,38 +12,99 @@ Data FROM here will be passed to the Recommendations component, which will then 
 */
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
-//import skincareIngredients from "../../data/skincareIngredients.json";
+import skincareIngredients from "../../data/skincareIngredients.json";
 
 export async function POST(req: Request) {
   try {
-    //console.log("Skincare ingredients data:", skincareIngredients);
     const data = await req.json();
-    console.log("Request data:", data);
-    /* PROMPT 
-    in prompt, list steps to get comprehensive skin care regimine based on user skin concerns.
-     Use skincare-ingredients as the knowledge base. For example, if the user is concerned about dark spots, they should be recommended products with Ascorbic Acid or Arbutin. If they are concerned with hyperpigmentation, they should be recommended products with Tranexamic Acid, Kojic Acid, Alpha Arbutin, Licorice Root Extract, etc
+    // console.log("Request data:", data);
+    const messages = data.messages || data; // Handle different data structures
 
-    Agent will return JSON in the following format
+    let flatMessages: any[] = [];
+    if (Array.isArray(messages)) {
+      // If any element is an object with numeric keys, flatten those
+      messages.forEach((msg) => {
+        if (
+          typeof msg === "object" &&
+          Object.keys(msg).every((k) => !isNaN(Number(k)))
+        ) {
+          // Flatten object with numeric keys
+          Object.values(msg).forEach((innerMsg) => flatMessages.push(innerMsg));
+        } else {
+          flatMessages.push(msg);
+        }
+      });
+    } else {
+      flatMessages = [messages];
+    }
 
-   
-    JSON 
-    facewash: ingredient(s),
-    toner: ingredients(s), 
-    serum: ingredients(s), 
-    moisturizer: ingredients(s)
-    sunscreen: ingredients(s)
+    // Format as "role: content"
+    const conversationHistory = flatMessages
+      .map((msg) => `${msg.role}: ${msg.content}`)
+      .join("\n");
 
+    // console.log("Conversation History:\n", conversationHistory);
+
+    /* 
     functions 
     - getIngredients 
-    -update chatBox
     - make Post Request 
     */
 
     const prompt = `
-    You are a skincare expert AI assistant. Your task is to provide personalized skincare advice based on user input.
+        You are a skincare expert AI assistant designed to create personalized skincare routines. Your approach is methodical and user-friendly - you ask ONE question at a time to avoid overwhelming users.
 
-    
-    `;
+        ## Your Knowledge Base
+        You have access to this comprehensive skincare ingredients database:
+        ${JSON.stringify(skincareIngredients)}
+
+        ##Conversation Context 
+        You have access to the conversation history so far ${conversationHistory}
+
+
+        ## Your Task
+        1. **Track Progress**: Remember what information you've already gathered from the user
+        2. **One Question at a Time**: Ask only ONE follow-up question per response
+        3. **Natural Flow**: Acknowledge their previous answer before asking the next question
+        4. **Question Sequence**: 
+          - PRIMARY skin concern (if not clear from their message)
+          - Skin type (oily, dry, combination, sensitive, normal)
+          - Experience level (beginner, intermediate, advanced)
+          - Current products/sensitivities
+
+        ## Response Format Based on Stage
+
+        **If this is the FIRST message or you need their main concern:**
+        "I'd love to help you with [acknowledge their concern]! To create the perfect routine for you, I need to ask a few quick questions.
+
+        What's your skin type? (oily, dry, combination, sensitive, or normal)"
+
+        **If you have some info but need more:**
+        "Got it! [acknowledge previous answer]. 
+
+        [Next question based on what you still need]"
+
+        **If you have ALL information needed:**
+        Provide the full routine in this format:
+
+        ### Your Personalized Skincare Routine
+
+        🧼 Cleanser: [ingredients]
+        🌸 Toner: [ingredients]  
+        ✨ Serum: [ingredients]
+        💧 Moisturizer: [ingredients]
+        ☀️ Sunscreen: [ingredients]
+
+        ## Key Rules
+        - Don't repeat questions you've already asked
+        - Only ask for information you need to create a routine that includes cleanser, toner, serum, moisturizer, and sunscreen.
+        - Always acknowledge their previous response
+        - Keep responses conversational and friendly
+        - Use the ingredient database for final recommendations
+        - Only provide the full routine when you have enough information
+        -You must recommend products based on the ingredients in the database.
+
+        `;
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
@@ -50,9 +112,37 @@ export async function POST(req: Request) {
     const result = await model.generateContent([prompt]);
     const aiResponse = result.response.text();
     console.log("AI response:", aiResponse);
+    // Declare routine variable in outer scope
+    let routine: Record<string, string> | null = null;
 
-    return new Response(aiResponse, {
-      headers: { "Content-Type": "text/plain" },
+    // check if the response contains the full routine
+    if (
+      aiResponse.includes("Cleanser:") &&
+      aiResponse.includes("Toner:") &&
+      aiResponse.includes("Serum:") &&
+      aiResponse.includes("Moisturizer:") &&
+      aiResponse.includes("Sunscreen:")
+    ) {
+      // Parse the routine sections
+      routine = {};
+      const routineRegex =
+        /🧼 Cleanser: (.*)\n.*🌸 Toner: (.*)\n.*✨ Serum: (.*)\n.*💧 Moisturizer: (.*)\n.*☀️ Sunscreen: (.*)/;
+      const match = aiResponse.match(routineRegex);
+      if (match) {
+        routine.cleanser = match[1].trim();
+        routine.toner = match[2].trim();
+        routine.serum = match[3].trim();
+        routine.moisturizer = match[4].trim();
+        routine.sunscreen = match[5].trim();
+
+        console.log("Routine parsed:", routine);
+
+        // Here you can make a POST request to your backend to save the routine
+      }
+    }
+
+    return new Response(JSON.stringify({ aiResponse, routine }), {
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("Error processing request:", error);

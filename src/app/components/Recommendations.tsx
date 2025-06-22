@@ -11,7 +11,7 @@ The recommendations component will be a simple component that displays the produ
 import React, { useMemo } from "react";
 import ingredientsData from "../data/skincareIngredients.json";
 
-const Recommendations = ({ query = "" }) => {
+const Recommendations = ({ query = "", routine = null }) => {
   const cleanQuery = query.toLowerCase().trim();
 
   const matchedIngredients = useMemo(() => {
@@ -28,6 +28,10 @@ const Recommendations = ({ query = "" }) => {
     const uniqueMatches = [
       ...new Map(matching.map((item) => [item.name, item])).values(),
     ];
+
+    if (routine) {
+      console.log("Routine provided from backend:", routine);
+    }
 
     return uniqueMatches;
   }, [cleanQuery]);
