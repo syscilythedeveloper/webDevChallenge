@@ -15,7 +15,6 @@
     "@mui/material": "^7.1.2",
     "@mui/system": "^7.1.1",
     "algoliasearch": "^4.17.2",
-    "convex": "^1.24.8",
     "next": "15.3.3",
     "papaparse": "^5.5.3",
     "react": "^19.1.0",
