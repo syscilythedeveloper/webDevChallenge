@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useSearchBox } from "react-instantsearch-hooks-web";
+import { useSearchBox } from "react-instantsearch";
 
 export default function SearchBridge({ searchTerm }: { searchTerm: string }) {
   const { refine } = useSearchBox();
@@ -10,8 +10,7 @@ export default function SearchBridge({ searchTerm }: { searchTerm: string }) {
       refine(searchTerm);
       prevSearchRef.current = searchTerm;
     }
-    // 🔴 Remove 'refine' from deps
-  }, [searchTerm]);
+  }, [searchTerm, refine]);
 
   return null;
 }

@@ -11,7 +11,7 @@ import {
   Pagination,
   Configure,
   useHits,
-} from "react-instantsearch-hooks-web";
+} from "react-instantsearch";
 
 // ✅ Algolia client setup
 const appId = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!;
