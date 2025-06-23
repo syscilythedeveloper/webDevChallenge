@@ -1,7 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
 The user will have conversation with chatbox (/api/chat)
-Chatbox will be a simple component that displays messages and allows the user to send new messages.
+Chatbox will be a simple component that displays messages and allows th                  <Box
+                    bgcolor={isAssistant ? "#4ecdc4" : "#ff6b6b"}
+                    color="white"
+                    borderRadius={16}
+                    p={3}
+                    sx={{ whiteSpace: 'pre-wrap' }}
+                  >
+                    {isAssistant && isLast && isLoading ? (
+                      <span>Thinking{ellipsis}</span>
+                    ) : (
+                      <div dangerouslySetInnerHTML={{ __html: message.content }} />
+                    )}
+                  </Box>d new messages.
 The input is user data
 The return  is a list of ingredients that the user will need to solve the skincare problem (NOT VISUAL)
 ----this will send a POST request to /api/recommendations, which will search the convex db for products with the specified ingredients
@@ -68,12 +79,14 @@ const Chatbox = () => {
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
-      const { aiResponse, routine } = data;
+      console.log("Response data:", data);
+      const { aiResponse } = data;
 
       // Update assistant message with the response
       setMessages((prev) => {
         const updated = [...prev];
         updated[updated.length - 1].content = aiResponse;
+        console.log("Updated is: ", updated);
         return updated;
       });
 
@@ -133,11 +146,14 @@ const Chatbox = () => {
                     color="white"
                     borderRadius={16}
                     p={3}
+                    sx={{ whiteSpace: "pre-wrap" }}
                   >
                     {isAssistant && isLast && isLoading ? (
                       <span>Thinking{ellipsis}</span>
                     ) : (
-                      message.content
+                      <div
+                        dangerouslySetInnerHTML={{ __html: message.content }}
+                      />
                     )}
                   </Box>
                 </Box>

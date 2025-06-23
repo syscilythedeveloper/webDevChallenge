@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
 This component is the API route for the chat feature.
 It uses the Google Generative AI to generate a skincare regimen based on user input.
@@ -17,39 +16,7 @@ import skincareIngredients from "../../data/skincareIngredients.json";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    // console.log("Request data:", data);
-    const messages = data.messages || data; // Handle different data structures
-
-    let flatMessages: any[] = [];
-    if (Array.isArray(messages)) {
-      // If any element is an object with numeric keys, flatten those
-      messages.forEach((msg) => {
-        if (
-          typeof msg === "object" &&
-          Object.keys(msg).every((k) => !isNaN(Number(k)))
-        ) {
-          // Flatten object with numeric keys
-          Object.values(msg).forEach((innerMsg) => flatMessages.push(innerMsg));
-        } else {
-          flatMessages.push(msg);
-        }
-      });
-    } else {
-      flatMessages = [messages];
-    }
-
-    // Format as "role: content"
-    const conversationHistory = flatMessages
-      .map((msg) => `${msg.role}: ${msg.content}`)
-      .join("\n");
-
-    // console.log("Conversation History:\n", conversationHistory);
-
-    /* 
-    functions 
-    - getIngredients 
-    - make Post Request 
-    */
+    // console.log("Received data:", data);
 
     const prompt = `
         You are a skincare expert AI assistant designed to create personalized skincare routines. Your approach is methodical and user-friendly - you ask ONE question at a time to avoid overwhelming users.
@@ -59,7 +26,9 @@ export async function POST(req: Request) {
         ${JSON.stringify(skincareIngredients)}
 
         ##Conversation Context 
-        You have access to the conversation history so far ${conversationHistory}
+        You have access to the conversation history so far ${JSON.stringify(
+          data.messages
+        )}
 
 
         ## Your Task
@@ -85,24 +54,51 @@ export async function POST(req: Request) {
         [Next question based on what you still need]"
 
         **If you have ALL information needed:**
-        Provide the full routine in this format:
+          Provide targeted ingredient recommendations in this exact format. Use HTML <strong> tags ONLY around ingredient names to make them bold:
 
-        ### Your Personalized Skincare Routine
+Your Personalized Ingredient List
 
-        🧼 Cleanser: [ingredients]
-        🌸 Toner: [ingredients]  
-        ✨ Serum: [ingredients]
-        💧 Moisturizer: [ingredients]
-        ☀️ Sunscreen: [ingredients]
+✨ For <strong>[primary concern]</strong>:
+• <em>[Key Active Ingredient]</em>: [brief explanation of how it helps]
+• <strong>[Supporting Ingredient]</strong>: [brief explanation]
 
-        ## Key Rules
-        - Don't repeat questions you've already asked
-        - Only ask for information you need to create a routine that includes cleanser, toner, serum, moisturizer, and sunscreen.
-        - Always acknowledge their previous response
-        - Keep responses conversational and friendly
-        - Use the ingredient database for final recommendations
-        - Only provide the full routine when you have enough information
-        -You must recommend products based on the ingredients in the database.
+✨ For <strong>[secondary concern] </strong>(if applicable):
+• <em>[Key Active Ingredient]</em>: [brief explanation]
+
+💧 <strong>Essential Support Ingredients</strong>:
+• <em>[Hydrating ingredient]</em>: [why it's needed]
+• <em>[Barrier repair ingredient]</em>: [why it's needed]  
+• <em>[Soothing ingredient]</em>: [why it's needed for their skin type]
+
+🛍️ <strong>Product Categories to look for: </strong>
+• <em>Treatment</em>: Look for products containing [specific active ingredients]
+• <em>Hydration</em>: Look for products with [specific moisturizing ingredients]
+• <em>Protection</em>: Look for broad-spectrum sunscreen with [SPF recommendation]
+
+IMPORTANT: Use <strong> tags ONLY around category names. Use <em> tags ONLY around ingredients Do not use asterisks (*) or any other markdown formatting.
+
+            ## Key Rules
+            - Use ${JSON.stringify(
+              data.messages
+            )} as context during the entire conversation to avoid repetition
+            - Focus on INGREDIENTS rather than rigid product categories
+            - Recommend 3-6 key ingredients maximum to avoid overwhelming
+            - Always explain WHY each ingredient helps their specific concern
+            - Consider ingredient interactions and layering order
+            - Adapt recommendations based on experience level (beginners get gentler, fewer actives)
+            - Don't assume they need a 5-step routine - some concerns need only 2-3 targeted products
+            - Always acknowledge their previous responses
+            - Keep responses conversational and educational
+            - Use the ingredient database for all recommendations
+            - Only provide the full ingredient list when you have enough information about their concerns and skin type
+            - For sensitive skin, prioritize gentle, well-tolerated ingredients
+            - For beginners, recommend starting with one active ingredient at a time
+
+            ## Important Notes
+            - Not every routine needs toner - only recommend if beneficial for their specific concern
+            - Some concerns (like simple dryness) may only need cleanser, moisturizer, and sunscreen
+            - Advanced users can handle multiple actives, beginners should start simple
+            - Always consider ingredient compatibility (e.g., don't recommend strong acids with retinoids for beginners)
 
         `;
 
@@ -110,36 +106,12 @@ export async function POST(req: Request) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
     const result = await model.generateContent([prompt]);
+    const jsonResponse = result.response.candidates;
+    console.log("AI response:", jsonResponse);
     const aiResponse = result.response.text();
     console.log("AI response:", aiResponse);
     // Declare routine variable in outer scope
-    let routine: Record<string, string> | null = null;
-
-    // check if the response contains the full routine
-    if (
-      aiResponse.includes("Cleanser:") &&
-      aiResponse.includes("Toner:") &&
-      aiResponse.includes("Serum:") &&
-      aiResponse.includes("Moisturizer:") &&
-      aiResponse.includes("Sunscreen:")
-    ) {
-      // Parse the routine sections
-      routine = {};
-      const routineRegex =
-        /🧼 Cleanser: (.*)\n.*🌸 Toner: (.*)\n.*✨ Serum: (.*)\n.*💧 Moisturizer: (.*)\n.*☀️ Sunscreen: (.*)/;
-      const match = aiResponse.match(routineRegex);
-      if (match) {
-        routine.cleanser = match[1].trim();
-        routine.toner = match[2].trim();
-        routine.serum = match[3].trim();
-        routine.moisturizer = match[4].trim();
-        routine.sunscreen = match[5].trim();
-
-        console.log("Routine parsed:", routine);
-
-        // Here you can make a POST request to your backend to save the routine
-      }
-    }
+    const routine = "Wash ass";
 
     return new Response(JSON.stringify({ aiResponse, routine }), {
       headers: { "Content-Type": "application/json" },
