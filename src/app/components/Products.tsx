@@ -4,6 +4,7 @@
 import React from "react";
 import algoliasearch from "algoliasearch/lite";
 import SearchBridge from "./SearchBridge";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 // import { useCart } from "@/context/CartContext";
 
 import {
@@ -58,7 +59,20 @@ function Hit({ hit }: any) {
     : "/placeholders/default.png";
 
   return (
-    <div className="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition bg-white flex flex-col justify-between h-[320px]">
+    <div className="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition bg-white flex flex-col justify-between h-[320px] relative">
+      {/* Circular Button - Upper Right Corner */}
+      <button
+        className="absolute top-2 right-2 w-8 h-8 bg-sage-600 hover:bg-sage-700 text-green-900 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110 z-10"
+        onClick={(e) => {
+          e.stopPropagation();
+          // Add your button click logic here
+          console.log("Button clicked for:", cleanName);
+        }}
+        title="Compare product"
+      >
+        <HiMagnifyingGlass className="w-5 h-5" />
+      </button>
+
       {/* Image Section */}
       <div className="w-full h-[180px] mb-2 bg-gray-100 rounded flex items-center justify-center relative overflow-hidden">
         <img
@@ -83,9 +97,22 @@ function Hit({ hit }: any) {
         {size && <p className="text-xs text-gray-500 italic">Size: {size}</p>}
       </div>
 
-      {/* Add to Cart */}
-      <button className="mt-3 px-3 py-2 text-sm rounded bg-green-600 text-white hover:bg-green-700 transition">
-        Add to Cart
+      {/* Save Product Button */}
+      <button className="mt-3 px-4 py-3 text-sm bg-green-200/30 font-medium text-green-900 rounded-xl bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group outline-green-900/30 outline-2 ">
+        <svg
+          className="w-4 h-4 transition-transform group-hover:scale-110"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
+        <span>Save Product</span>
       </button>
     </div>
   );
@@ -96,7 +123,7 @@ function HitGrid() {
   const { hits } = useHits();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
       {hits.map((hit: any) => (
         <Hit
           key={hit.objectID}
@@ -117,22 +144,18 @@ export default function Products({ searchTerm }: { searchTerm: string }) {
       <SearchBridge searchTerm={searchTerm} />
       <Configure hitsPerPage={9} />
 
-      <div className="w-full max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <section className="lg:col-span-3 flex flex-col items-center">
-            <HitGrid />
-            <div className="mt-10 flex justify-center">
-              <Pagination
-                classNames={{
-                  root: "flex justify-center mt-6",
-                  list: "flex gap-2",
-                  item: "px-3 py-1 border border-gray-300 rounded text-sm hover:bg-blue-100 transition",
-                  selectedItem: "bg-blue-600 text-white font-semibold",
-                  disabledItem: "opacity-40 cursor-not-allowed",
-                }}
-              />
-            </div>
-          </section>
+      <div className="w-full">
+        <HitGrid />
+        <div className="mt-10 flex justify-center">
+          <Pagination
+            classNames={{
+              root: "flex justify-center mt-6",
+              list: "flex gap-2",
+              item: "px-3 py-1 border border-gray-300 rounded text-sm hover:bg-blue-100 transition",
+              selectedItem: "bg-blue-600 text-white font-semibold",
+              disabledItem: "opacity-40 cursor-not-allowed",
+            }}
+          />
         </div>
       </div>
     </InstantSearch>
