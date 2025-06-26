@@ -1,26 +1,3 @@
-/*
-The user will have conversation with chatbox (/api/chat)
-Chatbox will be a simple component that displays messages and allows th                  <Box
-                    bgcolor={isAssistant ? "#4ecdc4" : "#ff6b6b"}
-                    color="white"
-                    borderRadius={16}
-                    p={3}
-                    sx={{ whiteSpace: 'pre-wrap' }}
-                  >
-                    {isAssistant && isLast && isLoading ? (
-                      <span>Thinking{ellipsis}</span>
-                    ) : (
-                      <div dangerouslySetInnerHTML={{ __html: message.content }} />
-                    )}
-                  </Box>d new messages.
-The input is user data
-The return  is a list of ingredients that the user will need to solve the skincare problem (NOT VISUAL)
-----this will send a POST request to /api/recommendations, which will search the convex db for products with the specified ingredients
-The recommendations component will display the products that match the ingredients
-The user will then be able to add the products to their cart
-
-
-*/
 "use client";
 
 import { Button, TextField } from "@mui/material";
@@ -105,7 +82,7 @@ const Chatbox = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 w-100 h-150 bg-white border border-gray-300 rounded-lg shadow-lg p-4 flex flex-col">
+    <div className="w-full h-[600px] bg-white/90 border border-sage-200 rounded-lg shadow-lg flex flex-col backdrop-blur-sm">
       <Box
         width="100%"
         height="100%"
@@ -113,9 +90,9 @@ const Chatbox = () => {
         flexDirection="column"
         className="prose prose-lg max-w-none h-full flex flex-col"
         sx={{
-          backgroundColor: "white",
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
           borderRadius: 2,
-          boxShadow: 3,
+          boxShadow: "0 4px 20px rgba(51, 75, 53, 0.1)",
         }}
       >
         <Stack
@@ -129,7 +106,7 @@ const Chatbox = () => {
             spacing={2}
             flexGrow={1}
             width="100%"
-            className="bg-white/95 rounded-xl p-6 prose prose-lg max-w-none overflow-y-auto min-h-0"
+            className="bg-gradient-to-br from-white/95 to-green-50/90 rounded-xl p-6 prose prose-lg max-w-none overflow-y-auto min-h-0"
             style={{ minHeight: 0 }}
           >
             {messages.map((message, index) => {
@@ -142,7 +119,7 @@ const Chatbox = () => {
                   justifyContent={isAssistant ? "flex-start" : "flex-end"}
                 >
                   <Box
-                    bgcolor={isAssistant ? "#4ecdc4" : "#ff6b6b"}
+                    bgcolor={isAssistant ? "#84c288" : "#D2B48C"}
                     color="white"
                     borderRadius={16}
                     p={3}
@@ -169,7 +146,7 @@ const Chatbox = () => {
         </Stack>
       </Box>
 
-      <div className="absolute bottom-5 w-full flex items-center flex-end gap-2 p-4 bg-white border-t border-gray-200">
+      <div className="flex items-center gap-2 p-4 bg-gradient-to-r from-green-50/80 to-white/90 border-t border-green-200/50 mt-auto">
         <TextField
           label="Message"
           fullWidth
@@ -181,12 +158,35 @@ const Chatbox = () => {
               sendMessage();
             }
           }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#6b8e6b",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#6b8e6b",
+              },
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#6b8e6b",
+            },
+          }}
         />
         <Button
           variant="contained"
           onClick={sendMessage}
           disabled={isLoading}
-          className="flex-1 px-4 py-2 bg-gradient-to-r from-[#fa8072] to-[#e9967a] hover:from-[#e9967a] hover:to-[#fa8072] text-white text-base font-semibold rounded-lg shadow transition-all duration-300 flex items-center justify-center gap-2 border border-transparent"
+          className="px-4 py-2 text-white text-base font-semibold rounded-lg shadow transition-all duration-300 flex items-center justify-center gap-2 border border-transparent"
+          sx={{
+            backgroundColor: "#6b8e6b",
+            "&:hover": {
+              backgroundColor: "#5a7a5a",
+            },
+            "&:disabled": {
+              backgroundColor: "#a0a0a0",
+            },
+          }}
         >
           Send
         </Button>

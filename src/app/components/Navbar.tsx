@@ -27,7 +27,7 @@ const Navbar = () => {
             href="/products"
             className="hover:text-blue-500"
           >
-            Products
+            Profile
           </Link>
         </li>
         <li>

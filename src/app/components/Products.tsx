@@ -84,8 +84,8 @@ function Hit({ hit }: any) {
       </div>
 
       {/* Add to Cart */}
-      <button className="mt-3 px-3 py-2 text-sm rounded bg-green-600 text-white hover:bg-green-700 transition">
-        Add to Cart
+      <button className="mt-3 px-3 py-2 text-sm rounded bg-green-800/90 text-white hover:bg-green-700 transition">
+        Save Product
       </button>
     </div>
   );
@@ -96,7 +96,7 @@ function HitGrid() {
   const { hits } = useHits();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
       {hits.map((hit: any) => (
         <Hit
           key={hit.objectID}
@@ -117,22 +117,18 @@ export default function Products({ searchTerm }: { searchTerm: string }) {
       <SearchBridge searchTerm={searchTerm} />
       <Configure hitsPerPage={9} />
 
-      <div className="w-full max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <section className="lg:col-span-3 flex flex-col items-center">
-            <HitGrid />
-            <div className="mt-10 flex justify-center">
-              <Pagination
-                classNames={{
-                  root: "flex justify-center mt-6",
-                  list: "flex gap-2",
-                  item: "px-3 py-1 border border-gray-300 rounded text-sm hover:bg-blue-100 transition",
-                  selectedItem: "bg-blue-600 text-white font-semibold",
-                  disabledItem: "opacity-40 cursor-not-allowed",
-                }}
-              />
-            </div>
-          </section>
+      <div className="w-full">
+        <HitGrid />
+        <div className="mt-10 flex justify-center">
+          <Pagination
+            classNames={{
+              root: "flex justify-center mt-6",
+              list: "flex gap-2",
+              item: "px-3 py-1 border border-gray-300 rounded text-sm hover:bg-blue-100 transition",
+              selectedItem: "bg-blue-600 text-white font-semibold",
+              disabledItem: "opacity-40 cursor-not-allowed",
+            }}
+          />
         </div>
       </div>
     </InstantSearch>
