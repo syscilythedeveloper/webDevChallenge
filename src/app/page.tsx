@@ -33,7 +33,7 @@ export default function HomePage() {
         {/* Title + Search */}
         <div className="text-left mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-[#334b35] drop-shadow">
-            Ultai
+            Skincare.ai
           </h1>
           <input
             type="text"
@@ -50,7 +50,7 @@ export default function HomePage() {
           <section className="flex-1 bg-white/50 rounded-2xl p-6 shadow-lg backdrop-blur-md overflow-y-auto">
             <Products searchTerm={debouncedSearchTerm} />
           </section>
-          
+
           {/* Chatbox */}
           <section className="w-full lg:w-96 lg:sticky lg:top-24 lg:self-start">
             <Chatbox />

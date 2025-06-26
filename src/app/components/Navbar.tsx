@@ -10,7 +10,7 @@ const Navbar = () => {
         href="/"
         className="text-xl font-bold tracking-wide"
       >
-        Ultai
+        Skincare.ai
       </Link>
 
       <ul className="hidden md:flex gap-6 text-sm font-medium">
