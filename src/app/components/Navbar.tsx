@@ -38,14 +38,7 @@ const Navbar = () => {
             Contact
           </Link>
         </li>
-        <li>
-          <Link
-            href="/context/CartContext"
-            className="hover:text-blue-500"
-          >
-            Cart
-          </Link>
-        </li>
+        <li></li>
       </ul>
     </nav>
   );
