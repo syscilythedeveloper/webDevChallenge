@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import { usePathname } from 'next/navigation';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,22 +15,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Skincare.ai",
-  description:
-    "skincare.ai is your personal skincare assistant, helping you find the best products and routines for your skin type and concerns.",
-};
+// Note: metadata export doesn't work with 'use client', so we'll handle this differently
+// You can move metadata to a separate server component if needed
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {pathname !== '/' && <Navbar />}
         {children}
       </body>
     </html>
