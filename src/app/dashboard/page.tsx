@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
-import Chatbox from "../components/Chatbox";
-// import Recommendations from "./components/Recommendations";
+import Recommendations from "../components/Recommendations";
+import SlideInView from "../components/seraui/slideIn";
 
 const Products = dynamic(() => import("../components/Products"), {
   ssr: false,
@@ -20,6 +20,29 @@ function useDebouncedValue<T>(value: T, delay = 300): T {
 
   return debounced;
 }
+const fakeProducts = [
+  {
+    id: "1",
+    name: "Hydrating Serum",
+    image: "/placeholders/serum.png",
+    price: 29.99,
+    ingredients: ["Hyaluronic Acid", "Vitamin C"],
+  },
+  {
+    id: "2",
+    name: "Moisturizing Cream",
+    image: "/placeholders/moisteriser.png",
+    price: 39.99,
+    ingredients: ["Shea Butter", "Jojoba Oil"],
+  },
+  {
+    id: "3",
+    name: "Exfoliating Scrub",
+    image: "/placeholders/peel.png",
+    price: 19.99,
+    ingredients: ["Sugar", "Coconut Oil"],
+  },
+];
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,9 +53,8 @@ export default function HomePage() {
       <main className="w-full max-w-7xl mx-auto px-4 pt-24 pb-16">
         {/* Title + Search */}
         <div className="text-left mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-[#334b35] drop-shadow">
-            Skincare.ai
-          </h1>
+          <SlideInView text="Skincare.ai" />
+
           <input
             type="text"
             value={searchTerm}
@@ -42,23 +64,18 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Products and Chat Layout */}
-        <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
-          {/* Product Search */}
-          <section className="flex-1 bg-white/50 rounded-2xl p-6 shadow-lg backdrop-blur-md overflow-y-auto">
-            <Products searchTerm={debouncedSearchTerm} />
+        {/* Products and Recommendations Layout */}
+        <div className="flex flex-col">
+          {/* Recommendations */}
+          <section className="flex-2">
+            <Recommendations products={fakeProducts} />
           </section>
-
-          {/* Chatbox */}
-          <section className="w-full lg:w-96 lg:sticky lg:top-24 lg:self-start">
-            <Chatbox />
+          {/* Product Search */}
+          <section className="flex-1 bg-white/50 rounded-2xl p-6 shadow-lg backdrop-blur-md overflow-y-auto ">
+            <Products searchTerm={debouncedSearchTerm} />
           </section>
         </div>
       </main>
-
-      {/* <section className="max-w-4xl mx-auto">
-        <Recommendations query={debouncedSearchTerm} />
-      </section> */}
     </div>
   );
 }

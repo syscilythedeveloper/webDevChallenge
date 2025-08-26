@@ -1,70 +1,36 @@
-/*
-The input here is ingredients passed from the chatbox component
-The return is a list of products that match the ingredients
-The recommendations component will display the products that match the ingredients
-The user will then be able to search those specific products within the products component. 
-The recommendations component will be a simple component that displays the products that match the ingredients.
------no additional functionality, just a display of products that match the ingredients
------i.e. "Based on your skincare needs, we recommend the following products: _______ ________ _________ _________ _________"   
+import React from "react";
+import ProductCard from "./ProductCard";
+import RecommendationSummary from "./RecommendationSummary";
+interface RecommendationsProductProps {
+  products: {
+    id: string;
+    name: string;
+    image: string;
+    price: number;
+  }[];
+}
 
-*/
-import React, { useMemo } from "react";
-import ingredientsData from "../data/skincareIngredients.json";
-
-const Recommendations = ({ query = "", routine = null }) => {
-  const cleanQuery = query.toLowerCase().trim();
-
-  const matchedIngredients = useMemo(() => {
-    if (!cleanQuery) return [];
-
-    const ingredients = ingredientsData.skincare_ingredients;
-
-    const matching = ingredients.filter((ing) =>
-      ing.concerns.some((concern) =>
-        cleanQuery.includes(concern.replace(/_/g, " "))
-      )
-    );
-
-    const uniqueMatches = [
-      ...new Map(matching.map((item) => [item.name, item])).values(),
-    ];
-
-    if (routine) {
-      console.log("Routine provided from backend:", routine);
-    }
-
-    return uniqueMatches;
-  }, [cleanQuery]);
-
+const Recommendations = ({ products }: RecommendationsProductProps) => {
   return (
-    <div className="text-left mt-10">
-      <h3 className="text-xl font-semibold mb-3">
-        AI-Powered Ingredient Suggestions
-      </h3>
-      {matchedIngredients.length > 0 ? (
-        <div className="bg-blue-50 p-4 rounded shadow-sm">
-          <p>
-            Based on your search for <strong>{query}</strong>, consider looking
-            for products with:
-          </p>
-          <ul className="list-disc list-inside mt-2">
-            {matchedIngredients.map((ing) => (
-              <li key={ing.name}>
-                <strong>{ing.name}</strong>
-                {ing.notes ? ` — ${ing.notes}` : ""}
-              </li>
-            ))}
-          </ul>
+    <div className="w-full flex flex-col items-center my-1 border border-green-200/50 rounded-xl p-6 bg-gradient-to-br from-white/95 to-green-50/90 shadow-lg">
+      <div className="flex flex-row gap-10">
+        <div className="w-96">
+          <RecommendationSummary
+            productname={"Exfoliating Scrub"}
+            relevantIngredients={["Sugar", "Salt", "Coconut Oil"]}
+            summary={`We recommend this product because it contains ingredients that exfoliate and nourish the skin.`}
+            rating={4.5}
+          />
         </div>
-      ) : query ? (
-        <p className="text-sm text-gray-500 italic">
-          No specific ingredient matches found for “{query}”.
-        </p>
-      ) : (
-        <p className="text-sm text-gray-400 italic">
-          Enter a skin concern to see recommended ingredients.
-        </p>
-      )}
+        <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@
 import React from "react";
 import algoliasearch from "algoliasearch/lite";
 import SearchBridge from "./SearchBridge";
-import { HiMagnifyingGlass } from "react-icons/hi2";
+
 // import { useCart } from "@/context/CartContext";
 
 import {
@@ -13,6 +13,7 @@ import {
   Configure,
   useHits,
 } from "react-instantsearch";
+import Image from "next/image";
 
 // ✅ Algolia client setup
 const appId = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!;
@@ -59,27 +60,18 @@ function Hit({ hit }: any) {
     : "/placeholders/default.png";
 
   return (
-    <div className="p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition bg-white flex flex-col justify-between h-[320px] relative">
+    <div className="p-2 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition bg-white flex flex-col justify-between h-[320px] relative">
       {/* Circular Button - Upper Right Corner */}
-      <button
-        className="absolute top-2 right-2 w-8 h-8 bg-sage-600 hover:bg-sage-700 text-green-900 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110 z-10"
-        onClick={(e) => {
-          e.stopPropagation();
-          // Add your button click logic here
-          console.log("Button clicked for:", cleanName);
-        }}
-        title="Compare product"
-      >
-        <HiMagnifyingGlass className="w-5 h-5" />
-      </button>
 
       {/* Image Section */}
       <div className="w-full h-[180px] mb-2 bg-gray-100 rounded flex items-center justify-center relative overflow-hidden">
-        <img
+        <Image
           src={imagePath}
           alt={cleanName}
           className="w-full h-full object-cover"
           loading="lazy"
+          width={150}
+          height={150}
         />
       </div>
 
@@ -112,7 +104,7 @@ function Hit({ hit }: any) {
             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
           />
         </svg>
-        <span>Save Product</span>
+        <span>Analyze Product</span>
       </button>
     </div>
   );
@@ -121,6 +113,7 @@ function Hit({ hit }: any) {
 // ✅ Hit Grid
 function HitGrid() {
   const { hits } = useHits();
+  console.log("Hits:", hits);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -142,7 +135,7 @@ export default function Products({ searchTerm }: { searchTerm: string }) {
       searchClient={searchClient}
     >
       <SearchBridge searchTerm={searchTerm} />
-      <Configure hitsPerPage={9} />
+      <Configure hitsPerPage={3} />
 
       <div className="w-full">
         <HitGrid />
