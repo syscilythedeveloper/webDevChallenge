@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import RecommendationSummary from "./RecommendationSummary";
@@ -14,8 +13,8 @@ interface RecommendationsProductProps {
 }
 
 const Recommendations = ({ products }: RecommendationsProductProps) => {
-  const [productToAnalyze, setProductToAnalyze] = React.useState<any | null>(
-    null
+  const [productToAnalyze, setProductToAnalyze] = React.useState(
+    products && products.length > 0 ? products[0] : null
   );
   //const [loading, setLoading] = React.useState(false);
   const [relevantIngredients, setRelevantIngredients] = React.useState<
@@ -63,13 +62,12 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
       <div className="flex flex-row gap-10">
         <div className="w-96">
           <RecommendationSummary
-            productName={productToAnalyze?.product_names || "Select a product"}
+            productName={productToAnalyze?.product_names || "None"}
             //set relevant ingredients to loading or the actually relevant ingredients
             relevantIngredients={relevantIngredients || []}
             //set summary to loading or the actual summary
             summary={summary || ""}
             //set rating to loading or the actual rating
-            rating={productToAnalyze?.rating || 0}
           />
         </div>
         <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import MagicContainer from "./seraui/magicContainer";
 import { productTypeMap } from "./Products";
 import { IoMdTrendingUp } from "react-icons/io";
+import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 type Product = {
   image: string;
@@ -13,12 +14,45 @@ type Product = {
   product_names: string;
   standard_label: string;
   ingredients: string[];
+  rating?: number;
 };
 
 function getImagePath(standardLabel: string): string {
   const imageFile = productTypeMap[standardLabel];
-
   return imageFile ? `/placeholders/${imageFile}` : "/placeholders/default.png";
+}
+
+// --- StarRating helper ---
+function StarRating({ rating }: { rating?: number }) {
+  if (rating === undefined || rating === null || Number.isNaN(rating)) {
+    return <span className="text-xs text-gray-500">N/A</span>;
+  }
+
+  const rounded = Math.round(rating * 2) / 2; // nearest 0.5
+  const full = Math.floor(rounded);
+  const hasHalf = rounded - full === 0.5;
+  const empty = 5 - full - (hasHalf ? 1 : 0);
+
+  return (
+    <div
+      className="flex items-center"
+      aria-label={`Rating: ${rounded} out of 5`}
+    >
+      {Array.from({ length: full }).map((_, i) => (
+        <FaStar
+          key={`full-${i}`}
+          className="h-4 w-4 mr-0.5 text-yellow-500"
+        />
+      ))}
+      {hasHalf && <FaStarHalfAlt className="h-4 w-4 mr-0.5 text-yellow-500" />}
+      {Array.from({ length: empty }).map((_, i) => (
+        <FaRegStar
+          key={`empty-${i}`}
+          className="h-4 w-4 mr-0.5 text-gray-300"
+        />
+      ))}
+    </div>
+  );
 }
 
 export default function ProductCard({
@@ -45,7 +79,7 @@ export default function ProductCard({
   return (
     <MagicContainer className="group">
       <div
-        className=" 
+        className="
           relative rounded-[22px] bg-white/60 dark:bg-slate-900/60
           shadow-[0_8px_30px_rgb(0,0,0,0.08)] backdrop-blur
           transition-all duration-300
@@ -56,13 +90,13 @@ export default function ProductCard({
         <div className="relative w-full h-[205px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
           <span
             className={`
-                    absolute right-2 top-2 z-10 rounded-full
-                    border border-zinc-200 ${
-                      labelColorMap[product.standard_label.toLowerCase()] ||
-                      "bg-gray-200"
-                    } px-2 py-1
-                    text-[10px] font-medium tracking-wide text-zinc-800
-                  `}
+              absolute right-2 top-2 z-10 rounded-full
+              border border-zinc-200 ${
+                labelColorMap[product.standard_label.toLowerCase()] ||
+                "bg-gray-200"
+              } px-2 py-1
+              text-[10px] font-medium tracking-wide text-zinc-800
+            `}
           >
             {product.standard_label}
           </span>
@@ -93,20 +127,21 @@ export default function ProductCard({
             <span className="text-md font-semibold text-green-800/80">
               {price}
             </span>
+
+            {/* Stars + numeric rating */}
+            <StarRating rating={product.rating} />
           </div>
 
           <button
             className="
-                  relative mt-3 inline-flex w-full items-center justify-center overflow-hidden
-                    rounded-[14px] px-6 py-2.5 text-[10px] font-semibold
-                    text-emerald-900
-                    bg-gradient-to-br from-white to-emerald-50
-                    ring-1 ring-emerald-200
-                    shadow-[0_10px_30px_-10px_rgba(16,185,129,0.35)]
-                    transition-transform duration-300 ease-in-out
-                    hover:scale-[1.03] active:scale-95
-
- 
+              relative mt-3 inline-flex w-full items-center justify-center overflow-hidden
+              rounded-[14px] px-6 py-2.5 text-[10px] font-semibold
+              text-emerald-900
+              bg-gradient-to-br from-white to-emerald-50
+              ring-1 ring-emerald-200
+              shadow-[0_10px_30px_-10px_rgba(16,185,129,0.35)]
+              transition-transform duration-300 ease-in-out
+              hover:scale-[1.03] active:scale-95
             "
             onClick={() => onSelect && onSelect(product)}
           >
