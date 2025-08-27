@@ -1,21 +1,23 @@
 import React from "react";
+import GradientView from "./seraui/gradient";
 
 interface RecommendationSummaryProps {
   relevantIngredients?: string[];
-  productname: string;
+  productName: string;
   summary: string;
   rating: number;
 }
 
 const RecommendationSummary = ({
-  productname,
+  productName,
   summary,
   rating,
   relevantIngredients,
 }: RecommendationSummaryProps) => {
   return (
     <div className="border border-gray-200 rounded-lg p-4">
-      <h3 className="font-semibold">{productname}</h3>
+      <h3 className="font-semibold">Generating Analysis for:</h3>
+      <GradientView productName={productName} />
       <p className="mt-4 text-sm text-gray-600">
         This product was recommended due to the presence of:
       </p>

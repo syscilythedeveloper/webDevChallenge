@@ -3,13 +3,14 @@
 
 import Image from "next/image";
 import MagicContainer from "./seraui/magicContainer";
+import { IoMdTrendingUp } from "react-icons/io";
 
 type Product = {
   id: string;
   name: string;
   image: string;
   price: number;
-  label?: string; // e.g. "New", "Bestseller"
+  label: string; // e.g. "New", "Bestseller"
 };
 
 export default function ProductCard({
@@ -24,6 +25,15 @@ export default function ProductCard({
     currency: "USD",
   }).format(product.price);
 
+  const labelColorMap: Record<string, string> = {
+    serum: "bg-teal-100 text-teal-800 ring-1 ring-teal-200",
+    moisturizer: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200",
+    exfoliator: "bg-rose-100 text-rose-700 ring-1 ring-rose-200",
+    facewash: "bg-sky-100 text-sky-700 ring-1 ring-sky-200",
+    sunscreen: "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-200",
+    toner: "bg-violet-100 text-violet-700 ring-1 ring-violet-200",
+  };
+
   return (
     <MagicContainer className="group">
       <div
@@ -35,13 +45,24 @@ export default function ProductCard({
         "
       >
         {/* image */}
-        <div className="relative w-full h-[165px] overflow-hidden rounded-t-[22px]">
-          <div className="relative aspect-[4/3] w-full">
+        <div className="relative w-full h-[165px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
+          <span
+            className={`
+                    absolute right-2 top-2 z-10 rounded-full
+                    border border-zinc-200 ${
+                      labelColorMap[product.label.toLowerCase()] ||
+                      "bg-gray-200"
+                    } px-2 py-1
+                    text-[10px] font-medium tracking-wide text-zinc-800
+                  `}
+          >
+            {product.label}
+          </span>
+          <div className="flex items-center justify-center w-full h-full">
             <Image
               src={product.image}
               alt={product.name}
               fill
-              sizes="(min-width:1024px) 320px, 60vw"
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
@@ -58,20 +79,28 @@ export default function ProductCard({
           </h3>
 
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-xl font-semibold">{price}</span>
+            <span className="text-md font-semibold text-green-800/80">
+              {price}
+            </span>
           </div>
 
           <button
             className="
-              mt-3 inline-flex w-full items-center justify-center rounded-xl
-              bg-black text-white dark:bg-white dark:text-black
-              px-4 py-2.5 text-sm font-semibold
-              transition-all hover:-translate-y-0.5
-              active:translate-y-0
+                  relative mt-3 inline-flex w-full items-center justify-center overflow-hidden
+    rounded-[14px] px-6 py-2.5 text-[10px] font-semibold
+    text-emerald-900
+    bg-gradient-to-br from-white to-emerald-50
+    ring-1 ring-emerald-200
+    shadow-[0_10px_30px_-10px_rgba(16,185,129,0.35)]
+    transition-transform duration-300 ease-in-out
+    hover:scale-[1.03] active:scale-95
+
+ 
             "
             onClick={() => onSelect && onSelect(product)}
           >
-            Explain Recommendation
+            <IoMdTrendingUp className="mr-2 h-4 w-4" />
+            Analyze Recommendation
           </button>
         </div>
       </div>

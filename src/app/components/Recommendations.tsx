@@ -7,21 +7,24 @@ interface RecommendationsProductProps {
     name: string;
     image: string;
     price: number;
+    label: string;
   }[];
 }
 
 const Recommendations = ({ products }: RecommendationsProductProps) => {
   const [productToAnalyze, setProductToAnalyze] = React.useState(products[0]);
+
   useEffect(() => {
     // Analyze the selected product
     console.log("Analyzing product:", productToAnalyze);
   }, [productToAnalyze]);
 
-  const handleAnalysis = (product: {
+  const handleAnalysis = async (product: {
     id: string;
     name: string;
     image: string;
     price: number;
+    label: string;
   }) => {
     // Logic to explain the recommendation
     console.log("Explaining recommendation for:", product.name);
@@ -32,6 +35,11 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
     //try to return the analysis result
     //once parsing relevant ingredients is done, set loading to false
     //display the relevant ingredients and why it is recommended
+    const res = await fetch("/api/recommendations", {
+      method: "POST",
+      body: JSON.stringify({ product: productToAnalyze }),
+    });
+    console.log("API response:", res);
   };
 
   return (
@@ -39,7 +47,7 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
       <div className="flex flex-row gap-10">
         <div className="w-96">
           <RecommendationSummary
-            productname={productToAnalyze.name}
+            productName={productToAnalyze.name}
             relevantIngredients={["Sugar", "Salt", "Coconut Oil"]}
             summary={`We recommend this product because it contains ingredients that exfoliate and nourish the skin.`}
             rating={4.5}
