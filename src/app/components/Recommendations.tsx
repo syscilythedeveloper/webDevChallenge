@@ -1,19 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import RecommendationSummary from "./RecommendationSummary";
 interface RecommendationsProductProps {
   products: {
     objectID: string;
-    product_name: string;
+    product_names: string;
     image: string;
     price: number;
-    product_type: string;
+    standard_label: string;
     ingredients: string[];
   }[];
 }
 
 const Recommendations = ({ products }: RecommendationsProductProps) => {
-  const [productToAnalyze, setProductToAnalyze] = React.useState(products[0]);
+  const [productToAnalyze, setProductToAnalyze] = React.useState<any | null>(
+    null
+  );
+  //const [loading, setLoading] = React.useState(false);
+  const [relevantIngredients, setRelevantIngredients] = React.useState<
+    string[]
+  >([]);
+  const [summary, setSummary] = React.useState<string>("");
 
   useEffect(() => {
     // Analyze the selected product
@@ -22,15 +30,16 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
 
   const handleAnalysis = async (product: {
     objectID: string;
-    product_name: string;
+    product_names: string;
     image: string;
     price: number;
-    product_type: string;
+    standard_label: string;
     ingredients: string[];
   }) => {
-    // Logic to explain the recommendation
-    console.log("Explaining recommendation for:", product.product_name);
+    //Extract relevant properties for analysis
+
     setProductToAnalyze(product);
+
     //logic for api call to analyze the product based on the ingredients
     //set is loading true
     //while loading, display spinner
@@ -39,9 +48,14 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
     //display the relevant ingredients and why it is recommended
     const res = await fetch("/api/recommendations", {
       method: "POST",
-      body: JSON.stringify({ product: productToAnalyze }),
+      body: JSON.stringify({ product: product }),
     });
-    console.log("API response:", res);
+    const result = await res.json();
+    const { ingredients, summary } = result;
+    console.log("Ingredients:", ingredients);
+    console.log("Summary:", summary);
+    setRelevantIngredients(ingredients);
+    setSummary(summary);
   };
 
   return (
@@ -49,11 +63,13 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
       <div className="flex flex-row gap-10">
         <div className="w-96">
           <RecommendationSummary
-            // productName={productToAnalyze.name}
-            productName={productToAnalyze?.product_name || "Select a product"}
-            relevantIngredients={["Sugar", "Salt", "Coconut Oil"]}
-            summary={`We recommend this product because it contains ingredients that exfoliate and nourish the skin.`}
-            rating={4.5}
+            productName={productToAnalyze?.product_names || "Select a product"}
+            //set relevant ingredients to loading or the actually relevant ingredients
+            relevantIngredients={relevantIngredients || []}
+            //set summary to loading or the actual summary
+            summary={summary || ""}
+            //set rating to loading or the actual rating
+            rating={productToAnalyze?.rating || 0}
           />
         </div>
         <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">

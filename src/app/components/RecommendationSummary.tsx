@@ -24,14 +24,9 @@ const RecommendationSummary = ({
 
       {relevantIngredients && relevantIngredients.length > 0 && (
         <div className="mt-2">
-          <ul className="list-disc list-inside">
-            {relevantIngredients.map((ingredient, index) => (
-              <li
-                key={index}
-                className="text-sm text-gray-600"
-              >
-                {ingredient}
-              </li>
+          <ul className="list-disc pl-5">
+            {relevantIngredients.map((ingredient, idx) => (
+              <li key={idx}>{ingredient}</li>
             ))}
           </ul>
         </div>

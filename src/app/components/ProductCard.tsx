@@ -3,16 +3,23 @@
 
 import Image from "next/image";
 import MagicContainer from "./seraui/magicContainer";
+import { productTypeMap } from "./Products";
 import { IoMdTrendingUp } from "react-icons/io";
 
 type Product = {
   image: string;
   price: number;
   objectID: string;
-  product_name: string;
-  product_type: string;
+  product_names: string;
+  standard_label: string;
   ingredients: string[];
 };
+
+function getImagePath(standardLabel: string): string {
+  const imageFile = productTypeMap[standardLabel];
+
+  return imageFile ? `/placeholders/${imageFile}` : "/placeholders/default.png";
+}
 
 export default function ProductCard({
   product,
@@ -51,20 +58,18 @@ export default function ProductCard({
             className={`
                     absolute right-2 top-2 z-10 rounded-full
                     border border-zinc-200 ${
-                      labelColorMap[product.product_type.toLowerCase()] ||
+                      labelColorMap[product.standard_label.toLowerCase()] ||
                       "bg-gray-200"
                     } px-2 py-1
                     text-[10px] font-medium tracking-wide text-zinc-800
                   `}
           >
-            {product.product_type}
+            {product.standard_label}
           </span>
           <div className="flex items-center justify-center w-full h-full">
             <Image
-              src={
-                "/placeholders/" + product.product_type.toLowerCase() + ".png"
-              }
-              alt={product.product_name}
+              src={getImagePath(product.standard_label)}
+              alt={product.product_names}
               fill
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-[1.03]"
             />
@@ -79,9 +84,9 @@ export default function ProductCard({
         <div className="p-4">
           <h4
             className="text-xs font-bold line-clamp-2 truncate"
-            title={product.product_name}
+            title={product.product_names}
           >
-            {product.product_name}
+            {product.product_names}
           </h4>
 
           <div className="mt-2 flex items-center justify-between">

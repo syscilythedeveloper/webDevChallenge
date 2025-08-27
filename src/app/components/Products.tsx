@@ -21,14 +21,15 @@ const apiKey = process.env.NEXT_PUBLIC_ALGOLIA_API_KEY!;
 const searchClient = algoliasearch(appId, apiKey);
 
 // ✅ ProductType → Image filename mapping
-const productTypeMap: Record<string, string> = {
+export const productTypeMap: Record<string, string> = {
   toner: "toner.png",
   serum: "serum.png",
   oil: "oil.png",
   bodywash: "bodywash.png",
   eyecare: "eyecare.png",
   cleanser: "cleanser.png",
-  moisturiser: "moisturiser.png", // fixed spelling
+  moisturizer: "moisturizer.png", // fixed spelling
+  moisturiser: "moisturizer.png", // fixed spelling
   balm: "balm.png",
   exfoliator: "exfoliator.png",
   mask: "mask.png",
@@ -36,6 +37,7 @@ const productTypeMap: Record<string, string> = {
   mist: "mist.png",
   peel: "peel.png",
   bathsalts: "bathsalts.png", // fixed typo
+  other: "mask.png",
 };
 
 // ✅ Single Product Card
@@ -45,7 +47,7 @@ function Hit({ hit }: any) {
   const sizeRegex = /\b(\d+(\.\d+)?\s?(ml|oz|g|fl\.?\s?oz))\b/i;
   const emptyParensRegex = /\s*\(\s*\)\s*$/;
 
-  let cleanName = hit.product_name || "";
+  let cleanName = hit.product_names || "";
   const match = cleanName.match(sizeRegex);
   const size = match ? match[0] : null;
   cleanName = cleanName
@@ -53,7 +55,7 @@ function Hit({ hit }: any) {
     .replace(emptyParensRegex, "")
     .trim();
 
-  const rawType = (hit.product_type || "").toLowerCase().replace(/\s+/g, "");
+  const rawType = (hit.standard_label || "").toLowerCase().replace(/\s+/g, "");
   const imageFile = productTypeMap[rawType];
   const imagePath = imageFile
     ? `/placeholders/${imageFile}`
@@ -78,9 +80,9 @@ function Hit({ hit }: any) {
       {/* Details */}
       <div className="text-sm space-y-2 flex-1">
         <h2 className="text-lg font-bold line-clamp-2">{cleanName}</h2>
-        {hit.product_type && (
+        {hit.standard_label && (
           <p className="text-xs text-gray-600">
-            <strong>Type:</strong> {hit.product_type}
+            <strong>Type:</strong> {hit.standard_label}
           </p>
         )}
         {hit.price && (
@@ -116,18 +118,18 @@ function HitGrid({
 }: {
   onTopHitsChange?: (hits: any[]) => void;
 }) {
-  const { hits } = useHits();
-  console.log("Hits:", hits);
+  const { items } = useHits();
+  console.log("Hits:", items);
 
   React.useEffect(() => {
     if (onTopHitsChange) {
-      onTopHitsChange(hits.slice(0, 3));
+      onTopHitsChange(items.slice(0, 3));
     }
-  }, [hits, onTopHitsChange]);
+  }, [items, onTopHitsChange]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-      {hits.map((hit: any) => (
+      {items.map((hit: any) => (
         <Hit
           key={hit.objectID}
           hit={hit}
@@ -147,7 +149,7 @@ export default function Products({
 }) {
   return (
     <InstantSearch
-      indexName="skincare_products_csv"
+      indexName="skincare_products"
       searchClient={searchClient}
     >
       <SearchBridge searchTerm={searchTerm} />
