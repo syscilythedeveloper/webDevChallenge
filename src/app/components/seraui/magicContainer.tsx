@@ -32,7 +32,7 @@ const MagicContainer: React.FC<MagicContainerProps> = ({
     <div
       ref={containerRef}
       className={clsx(
-        "relative rounded-3xl p-[1px] transition-all duration-300",
+        "relative rounded-3xl p-[1px] transition-all duration-300 w-60 max-w-xs  ",
         className
       )}
       style={{

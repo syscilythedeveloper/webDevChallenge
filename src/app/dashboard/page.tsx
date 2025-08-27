@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -20,36 +21,11 @@ function useDebouncedValue<T>(value: T, delay = 300): T {
 
   return debounced;
 }
-const fakeProducts = [
-  {
-    id: "1",
-    name: "Hydrating Serum",
-    image: "/placeholders/serum.png",
-    price: 29.99,
-    ingredients: ["Hyaluronic Acid", "Vitamin C"],
-    label: "Serum",
-  },
-  {
-    id: "2",
-    name: "Moisturizing Cream",
-    image: "/placeholders/moisteriser.png",
-    price: 39.99,
-    ingredients: ["Shea Butter", "Jojoba Oil"],
-    label: "Moisturizer",
-  },
-  {
-    id: "3",
-    name: "Exfoliating Scrub",
-    image: "/placeholders/peel.png",
-    price: 19.99,
-    ingredients: ["Sugar", "Coconut Oil"],
-    label: "Exfoliator",
-  },
-];
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebouncedValue(searchTerm, 400);
+  const [topHits, setTopHits] = useState<any[]>([]);
 
   return (
     <div className="relative min-h-screen text-gray-900 bg-gradient-to-br from-[#edf5ec] via-[#e0f2ef] to-[#fefcf5]">
@@ -71,11 +47,14 @@ export default function HomePage() {
         <div className="flex flex-col h-[600px] overflow-y-auto ">
           {/* Recommendations */}
           <section className="flex-[2]">
-            <Recommendations products={fakeProducts} />
+            <Recommendations products={topHits} />
           </section>
           {/* Product Search */}
           <section className="flex-[1] bg-white/50 rounded-2xl p-6 shadow-lg backdrop-blur-md ">
-            <Products searchTerm={debouncedSearchTerm} />
+            <Products
+              searchTerm={debouncedSearchTerm}
+              onTopHitsChange={setTopHits}
+            />
           </section>
         </div>
       </main>

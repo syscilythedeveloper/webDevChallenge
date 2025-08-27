@@ -6,11 +6,12 @@ import MagicContainer from "./seraui/magicContainer";
 import { IoMdTrendingUp } from "react-icons/io";
 
 type Product = {
-  id: string;
-  name: string;
   image: string;
   price: number;
-  label: string; // e.g. "New", "Bestseller"
+  objectID: string;
+  product_name: string;
+  product_type: string;
+  ingredients: string[];
 };
 
 export default function ProductCard({
@@ -37,7 +38,7 @@ export default function ProductCard({
   return (
     <MagicContainer className="group">
       <div
-        className="
+        className=" 
           relative rounded-[22px] bg-white/60 dark:bg-slate-900/60
           shadow-[0_8px_30px_rgb(0,0,0,0.08)] backdrop-blur
           transition-all duration-300
@@ -45,23 +46,25 @@ export default function ProductCard({
         "
       >
         {/* image */}
-        <div className="relative w-full h-[165px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
+        <div className="relative w-full h-[205px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
           <span
             className={`
                     absolute right-2 top-2 z-10 rounded-full
                     border border-zinc-200 ${
-                      labelColorMap[product.label.toLowerCase()] ||
+                      labelColorMap[product.product_type.toLowerCase()] ||
                       "bg-gray-200"
                     } px-2 py-1
                     text-[10px] font-medium tracking-wide text-zinc-800
                   `}
           >
-            {product.label}
+            {product.product_type}
           </span>
           <div className="flex items-center justify-center w-full h-full">
             <Image
-              src={product.image}
-              alt={product.name}
+              src={
+                "/placeholders/" + product.product_type.toLowerCase() + ".png"
+              }
+              alt={product.product_name}
               fill
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-[1.03]"
             />
@@ -74,9 +77,12 @@ export default function ProductCard({
 
         {/* content */}
         <div className="p-4">
-          <h3 className="line-clamp-1 text-base font-semibold tracking-tight">
-            {product.name}
-          </h3>
+          <h4
+            className="text-xs font-bold line-clamp-2 truncate"
+            title={product.product_name}
+          >
+            {product.product_name}
+          </h4>
 
           <div className="mt-2 flex items-center justify-between">
             <span className="text-md font-semibold text-green-800/80">
@@ -87,13 +93,13 @@ export default function ProductCard({
           <button
             className="
                   relative mt-3 inline-flex w-full items-center justify-center overflow-hidden
-    rounded-[14px] px-6 py-2.5 text-[10px] font-semibold
-    text-emerald-900
-    bg-gradient-to-br from-white to-emerald-50
-    ring-1 ring-emerald-200
-    shadow-[0_10px_30px_-10px_rgba(16,185,129,0.35)]
-    transition-transform duration-300 ease-in-out
-    hover:scale-[1.03] active:scale-95
+                    rounded-[14px] px-6 py-2.5 text-[10px] font-semibold
+                    text-emerald-900
+                    bg-gradient-to-br from-white to-emerald-50
+                    ring-1 ring-emerald-200
+                    shadow-[0_10px_30px_-10px_rgba(16,185,129,0.35)]
+                    transition-transform duration-300 ease-in-out
+                    hover:scale-[1.03] active:scale-95
 
  
             "

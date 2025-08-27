@@ -111,9 +111,19 @@ function Hit({ hit }: any) {
 }
 
 // ✅ Hit Grid
-function HitGrid() {
+function HitGrid({
+  onTopHitsChange,
+}: {
+  onTopHitsChange?: (hits: any[]) => void;
+}) {
   const { hits } = useHits();
   console.log("Hits:", hits);
+
+  React.useEffect(() => {
+    if (onTopHitsChange) {
+      onTopHitsChange(hits.slice(0, 3));
+    }
+  }, [hits, onTopHitsChange]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -128,17 +138,23 @@ function HitGrid() {
 }
 
 // ✅ Products Wrapper
-export default function Products({ searchTerm }: { searchTerm: string }) {
+export default function Products({
+  searchTerm,
+  onTopHitsChange,
+}: {
+  searchTerm: string;
+  onTopHitsChange?: (hits: any[]) => void;
+}) {
   return (
     <InstantSearch
       indexName="skincare_products_csv"
       searchClient={searchClient}
     >
       <SearchBridge searchTerm={searchTerm} />
-      <Configure hitsPerPage={3} />
+      <Configure hitsPerPage={12} />
 
       <div className="w-full">
-        <HitGrid />
+        <HitGrid onTopHitsChange={onTopHitsChange} />
         <div className="mt-10 flex justify-center">
           <Pagination
             classNames={{

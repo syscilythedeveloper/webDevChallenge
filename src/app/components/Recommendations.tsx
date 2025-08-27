@@ -3,11 +3,12 @@ import ProductCard from "./ProductCard";
 import RecommendationSummary from "./RecommendationSummary";
 interface RecommendationsProductProps {
   products: {
-    id: string;
-    name: string;
+    objectID: string;
+    product_name: string;
     image: string;
     price: number;
-    label: string;
+    product_type: string;
+    ingredients: string[];
   }[];
 }
 
@@ -20,14 +21,15 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
   }, [productToAnalyze]);
 
   const handleAnalysis = async (product: {
-    id: string;
-    name: string;
+    objectID: string;
+    product_name: string;
     image: string;
     price: number;
-    label: string;
+    product_type: string;
+    ingredients: string[];
   }) => {
     // Logic to explain the recommendation
-    console.log("Explaining recommendation for:", product.name);
+    console.log("Explaining recommendation for:", product.product_name);
     setProductToAnalyze(product);
     //logic for api call to analyze the product based on the ingredients
     //set is loading true
@@ -47,7 +49,8 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
       <div className="flex flex-row gap-10">
         <div className="w-96">
           <RecommendationSummary
-            productName={productToAnalyze.name}
+            // productName={productToAnalyze.name}
+            productName={productToAnalyze?.product_name || "Select a product"}
             relevantIngredients={["Sugar", "Salt", "Coconut Oil"]}
             summary={`We recommend this product because it contains ingredients that exfoliate and nourish the skin.`}
             rating={4.5}
@@ -56,7 +59,7 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
         <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">
           {products.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product.objectID}
               product={product}
               onSelect={handleAnalysis}
             />
