@@ -7,9 +7,9 @@ const SlideInText = ({ text }: { text: string }) => {
       {text.split("").map((char, i) => (
         <motion.span
           key={i}
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: i * 0.03, ease: "easeOut" }}
+          initial={{ x: -50, opacity: 0, filter: "blur(10px)" }}
+          animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+          transition={{ delay: i * 0.05, duration: 0.8, ease: "easeOut" }}
           className="text-4xl md:text-5xl tracking-tight mb-4 text-[#334b35] drop-shadow inline-block"
         >
           {char === " " ? "\u00A0" : char}

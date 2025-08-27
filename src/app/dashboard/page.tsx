@@ -59,7 +59,7 @@ export default function HomePage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search  for skincare ingredients, products, or concerns..."
+            placeholder="Search for products by skin care concern, title, or ingredient"
             className="w-full px-4 py-2 border border-[#bfd8c2] rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-[#f97316] bg-white/60 backdrop-blur-md placeholder-gray-500"
           />
         </div>
