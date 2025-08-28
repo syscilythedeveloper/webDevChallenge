@@ -119,7 +119,6 @@ function HitGrid({
   onTopHitsChange?: (hits: any[]) => void;
 }) {
   const { items } = useHits();
-  console.log("Hits:", items);
 
   React.useEffect(() => {
     if (onTopHitsChange) {

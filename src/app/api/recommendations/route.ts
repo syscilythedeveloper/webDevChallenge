@@ -68,11 +68,11 @@ export function cleanProductResponse(raw: any): CleanedResponse {
   };
 }
 
-const userConcern = "dry skin";
-
 export async function POST(req: Request) {
   const data = await req.json();
   const rawIngredients = data.product.ingredient;
+  const userConcern = data.concern || "general skin health";
+  console.log("User concern:", userConcern);
   const prompt = `
 You are a skincare product recommendation engine. Explain why a product is recommended for the user's concern: ${userConcern}. Personalize the summary, lead with the concern, and ground all claims in the knowledge base.
 
@@ -90,14 +90,15 @@ Knowledge base (JSON): ${JSON.stringify(skincareIngredients)}
 
 ### Tasks
 1) Summary (2–3 sentences):
-   - Start by referencing the user's concern (e.g., “For acne-prone skin…”).
-   - If targeted ingredients exist, explain how they help the concern.
-   - If only supportive ingredients exist, say it provides supportive care to complement targeted treatments.
-   - If no relevant ingredients exist, be transparent that it’s general care rather than targeted for the concern.
-   - You may *subtly* include trust markers if they strengthen clarity:
-     - Reviews as social proof (e.g., “well-rated by many users”).
+   - Always begin by directly referencing the user’s concern (e.g., “For acne-prone skin…”).
+   - If targeted ingredients exist, clearly explain how they help with that concern in plain language.
+   - If only supportive ingredients exist, explain that the product provides supportive care to complement targeted treatments.
+   - If no relevant ingredients exist, be transparent that it functions as general care rather than a targeted solution.
+   - Include trust markers when available, written in natural, user-friendly ways:
+     - Reviews as social proof (e.g., “well-rated by thousands of users”).
      - Actives vs inactives as a potency/gentleness cue (e.g., “balanced for daily use”).
-   - Avoid raw counts and percentages; use user-friendly language.
+   - Use approachable, everyday beauty language. Avoid technical jargon, raw counts, or percentages.
+
 
 2) benefit_tags:
    - 2–5 short **verb + noun phrases** (e.g., "Brightens skin", "Clears blemishes", "Hydrates deeply").

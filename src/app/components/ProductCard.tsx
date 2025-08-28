@@ -87,7 +87,7 @@ export default function ProductCard({
         "
       >
         {/* image */}
-        <div className="relative w-full h-[205px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
+        <div className="relative w-full h-[250px] flex items-center justify-center overflow-hidden rounded-t-[22px] bg-transparent">
           <span
             className={`
               absolute right-2 top-2 z-10 rounded-full

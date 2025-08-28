@@ -45,13 +45,13 @@ export default function RecommendationSummary({
             style={{
               minHeight: "100px",
               maxHeight: "100px",
-              overflow: "scroll",
+              overflow: "ellipsis",
             }}
           >
             <Typewriter
               text={summary}
               speed={15}
-              className="text-xs leading-relaxed text-neutral-700"
+              className="text-[11px] leading-relaxed text-neutral-700"
             />
           </div>
         </>
@@ -64,7 +64,7 @@ export default function RecommendationSummary({
         (relevantIngredients && relevantIngredients.length > 0)) && (
         <div className="mt-5 grid grid-cols-2 gap-8 w-full items-start">
           {benefitTags.length > 0 && (
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-center">
               <h4 className="text-sm font-semibold text-gray-700 mb-2 italic">
                 Skin Benefits
               </h4>
@@ -83,11 +83,11 @@ export default function RecommendationSummary({
             </div>
           )}
           {relevantIngredients && relevantIngredients.length > 0 && (
-            <div className="flex flex-col items-end">
+            <div className="flex flex-col items-center">
               <h4 className="text-sm font-semibold text-emerald-900 mb-2 italic ">
                 Star Ingredients
               </h4>
-              <ul className="flex flex-col gap-2 items-end pl-0">
+              <ul className="flex flex-col gap-2 items-center pl-0">
                 {relevantIngredients.map((ingredient, idx) => (
                   <li
                     key={idx}

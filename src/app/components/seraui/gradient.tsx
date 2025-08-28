@@ -75,7 +75,7 @@ function GradientText({
 
 const GradientView = ({ productName }: { productName: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center font-sans p-4 space-y-8">
+    <div className="flex flex-col items-center justify-center font-sans p-2 space-y-8">
       <GradientText className="text-lg font-bold">{productName}</GradientText>
     </div>
   );

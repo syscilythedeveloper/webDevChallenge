@@ -47,7 +47,10 @@ export default function HomePage() {
         <div className="flex flex-col h-[600px] overflow-y-auto ">
           {/* Recommendations */}
           <section className="flex-[2]">
-            <Recommendations products={topHits} />
+            <Recommendations
+              products={topHits}
+              concern={debouncedSearchTerm}
+            />
           </section>
           {/* Product Search */}
           <section className="flex-[1] bg-white/50 rounded-2xl p-6 shadow-lg backdrop-blur-md ">

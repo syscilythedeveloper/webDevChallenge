@@ -11,9 +11,13 @@ interface RecommendationsProductProps {
     standard_label: string;
     ingredients: string[];
   }[];
+  concern?: string;
 }
 
-const Recommendations = ({ products }: RecommendationsProductProps) => {
+const Recommendations = ({
+  products,
+  concern,
+}: RecommendationsProductProps) => {
   const [productToAnalyze, setProductToAnalyze] = React.useState(
     products && products.length > 0 ? products[0] : null
   );
@@ -26,12 +30,7 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
   const [displayingAnalysis, setDisplayingAnalysis] =
     React.useState<boolean>(false);
 
-  useEffect(() => {
-    // Update the analysis when relevant ingredients change
-    console.log("Relevant ingredients updated:", relevantIngredients);
-    console.log("Summary updated:", summary);
-    console.log("Benefit tags updated:", benefitTags);
-  }, [relevantIngredients, summary, benefitTags]);
+  useEffect(() => {}, [relevantIngredients, summary, benefitTags]);
 
   const handleAnalysis = async (product: {
     objectID: string;
@@ -51,7 +50,7 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
     setDisplayingAnalysis(true);
     const res = await fetch("/api/recommendations", {
       method: "POST",
-      body: JSON.stringify({ product: product }),
+      body: JSON.stringify({ product: product, concern }),
     });
     const result = await res.json();
     const { relevantIngredients, summary, benefitTags } = result;
