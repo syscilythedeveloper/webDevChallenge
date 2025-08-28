@@ -32,7 +32,7 @@ export default function HomePage() {
       <main className="w-full max-w-7xl mx-auto px-4 pt-5 pb-10 ">
         {/* Title + Search */}
         <div className="text-left mb-10">
-          <SlideInView text="Skincare.ai" />
+          <SlideInView text="SkinCare.ai" />
 
           <input
             type="text"

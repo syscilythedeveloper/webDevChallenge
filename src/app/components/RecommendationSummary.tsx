@@ -26,7 +26,7 @@ export default function RecommendationSummary({
   benefitTags = [],
 }: RecommendationSummaryProps) {
   return (
-    <section className="rounded-2xl border border-emerald-100 bg-white/60 p-4 shadow-sm backdrop-blur-sm dark:border-emerald-900/30 dark:bg-emerald-950/10">
+    <section className="rounded-2xl  bg-green-50 border border-emerald-100 p-4 shadow-sm backdrop-blur-sm dark:border-emerald-900/30 dark:bg-emerald-950/10">
       {/* Header */}
       <h3 className="text-xs font-semibold tracking-wide text-emerald-700">
         Ingredient Intelligence by Skincare AI:

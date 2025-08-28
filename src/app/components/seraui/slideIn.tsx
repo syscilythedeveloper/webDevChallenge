@@ -10,7 +10,7 @@ const SlideInText = ({ text }: { text: string }) => {
           initial={{ x: -50, opacity: 0, filter: "blur(10px)" }}
           animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
           transition={{ delay: i * 0.05, duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-5xl tracking-tight mb-4 text-[#334b35] drop-shadow inline-block"
+          className="bg-[#4c733a] bg-clip-text text-transparent text-4xl md:text-5xl tracking-tight mb-4 drop-shadow inline-block font-bold"
         >
           {char === " " ? "\u00A0" : char}
         </motion.span>

@@ -39,7 +39,7 @@ function GradientText({
       {/* Inject keyframes styles */}
       <style dangerouslySetInnerHTML={{ __html: gradientKeyframes }} />
       <div
-        className={`relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-[1rem] font-medium backdrop-blur transition-shadow duration-500 overflow-hidden cursor-pointer ${className}`}
+        className={`relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-[1rem] font-medium transition-shadow duration-500 cursor-pointer ${className}`}
       >
         {showBorder && (
           <div
@@ -75,7 +75,7 @@ function GradientText({
 
 const GradientView = ({ productName }: { productName: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center font-sans p-2 space-y-8">
+    <div className="flex flex-col items-center justify-center font-sans p-2 space-y-8 bg-transparent">
       <GradientText className="text-lg font-bold">{productName}</GradientText>
     </div>
   );

@@ -62,7 +62,7 @@ const Recommendations = ({
   };
 
   return (
-    <div className="w-full flex flex-col items-center my-1 border border-green-200/50 rounded-xl p-6 bg-gradient-to-br from-white/95 to-green-50/90 shadow-lg">
+    <div className="w-full flex flex-col items-center my-1 border border-green-200 rounded-2xl p-4 bg-gradient-to-br from-green-200/10 to-green-100/10 shadow-lg">
       <div className="flex flex-row gap-10">
         <div className="w-96">
           {displayingAnalysis ? (
@@ -76,7 +76,7 @@ const Recommendations = ({
             <NoRecommendations />
           )}
         </div>
-        <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">
+        <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50 p-4 rounded-lg shadow-inner border border-green-200">
           {products.map((product) => (
             <ProductCard
               key={product.objectID}

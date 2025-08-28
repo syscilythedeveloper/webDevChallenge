@@ -3,9 +3,9 @@ import Image from "next/image";
 import appLogo from "../../../public/appLogo.png";
 
 const labels = [
-  { name: "Concerns", emoji: "🎯" },
-  { name: "Ingredients", emoji: "🧪" },
-  { name: "AI Analysis", emoji: "🤖" },
+  { name: "Your Concern", emoji: "🎯" },
+  { name: "Star Ingredients", emoji: "⭐️" },
+  { name: "The Science Behind It", emoji: "🧪" },
 ];
 
 export default function SkinCareAi() {
@@ -59,7 +59,7 @@ export default function SkinCareAi() {
                       group select-none
                       inline-flex items-center gap-1.5
                       rounded-full px-3.5 py-1.5
-                      text-sm text-[#2F3E2F]
+                      text-[11px] text-[#2F3E2F]
                       bg-[#F1FCE8] ring-1 ring-[#A3B18A]/30
                       hover:bg-[#394f2856] hover:ring-[#A3B18A]/40
                       transition-all duration-200
