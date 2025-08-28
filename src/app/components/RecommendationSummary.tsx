@@ -1,83 +1,93 @@
 import React from "react";
 import GradientView from "./seraui/gradient";
+import Loadbox from "./seraui/loadbox";
 
 interface RecommendationSummaryProps {
   relevantIngredients?: string[];
   productName: string;
   summary: string;
+  benefitTags?: string[];
 }
 
-const RecommendationSummary = ({
-  productName,
-  summary,
-
-  relevantIngredients,
-}: RecommendationSummaryProps) => {
-  return (
-    <div className="border border-gray-200 rounded-md p-2">
-      {productName !== "None" && (
-        <>
-          <h3 className="font-semibold">Generating Analysis for:</h3>
-          <GradientView productName={productName.trim()} />
-        </>
-      )}
-      {productName === "None" && (
-        <h4 className="text-sm text-green-600">
-          {" "}
-          Please select a product to see the analysis.
-        </h4>
-      )}
-      {relevantIngredients && relevantIngredients.length > 0 && (
-        <p className="mt-4 text-sm text-gray-600">
-          This product was recommended due to the presence of:
-        </p>
-      )}
-
-      {relevantIngredients && relevantIngredients.length > 0 ? (
-        <div className="mt-2">
-          <ul className="list-disc pl-5">
-            {relevantIngredients.map((ingredient, idx) => (
-              <li key={idx}>{ingredient}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div className="mt-3 flex items-start gap-2 rounded-md border border-emerald-200 bg-emerald-50 p-3 text-emerald-900">
-          {/* info icon */}
-          <svg
-            className="mt-0.5 h-4 w-4 shrink-0"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M10 18a8 8 0 100-16 8 8 0 000 16Zm-.75-9.5a.75.75 0 011.5 0v5a.75.75 0 01-1.5 0v-5ZM10 6.25a.875.875 0 100 1.75.875.875 0 000-1.75Z" />
-          </svg>
-          <div className="text-xs leading-5">
-            <p className="font-semibold">What you’ll see after analysis</p>
-            <ul className="ml-4 mt-1 list-disc space-y-1">
-              <li>
-                <b>Highlighted ingredients</b> that may address your concern
-                (e.g., Vitamin C, Niacinamide, Alpha Arbutin).
-              </li>
-              <li>
-                A concise <b>summary</b> explaining <i>why</i> this product
-                could help (dark spots, uneven tone, etc.).
-              </li>
-              <li>
-                A simple <b>breakdown</b> of ingredient roles (brightening,
-                antioxidant, gentle exfoliation).
-              </li>
-            </ul>
-            <p className="mt-2 text-emerald-800/90">
-              Select a product to begin. If a product doesn’t list ingredients,
-              the explanation will be more general.
-            </p>
-          </div>
-        </div>
-      )}
-      <p className="mt-4 text-sm text-gray-600">{summary}</p>
-    </div>
-  );
+const tagColorMap: Record<string, string> = {
+  Hydrating: "bg-emerald-50 text-emerald-900 ring-emerald-200",
+  Soothing: "bg-green-50 text-green-900 ring-green-200",
+  "Barrier-support": "bg-lime-50 text-lime-900 ring-lime-200",
+  Brightening: "bg-amber-50 text-amber-900 ring-amber-200",
+  "Oil-control": "bg-teal-50 text-teal-900 ring-teal-200",
+  "General care": "bg-neutral-50 text-neutral-800 ring-neutral-200",
 };
 
-export default RecommendationSummary;
+export default function RecommendationSummary({
+  productName,
+  summary,
+  relevantIngredients,
+  benefitTags = [],
+}: RecommendationSummaryProps) {
+  return (
+    <section className="rounded-2xl border border-emerald-100 bg-white/60 p-4 shadow-sm backdrop-blur-sm dark:border-emerald-900/30 dark:bg-emerald-950/10">
+      {/* Header */}
+      <h3 className="text-xs font-semibold tracking-wide text-emerald-700">
+        Generating Analysis for
+      </h3>
+
+      <GradientView productName={productName.trim()} />
+
+      {/* Summary */}
+      <p className="mt-2 text-sm font-semibold text-emerald-900">Summary</p>
+      {summary ? (
+        <>
+          <p className="mt-5 text-sm leading-relaxed text-neutral-700">
+            {summary}
+          </p>
+        </>
+      ) : (
+        <>
+          <Loadbox />
+        </>
+      )}
+      <p className="mt-5 text-sm font-semibold text-emerald-900">Benefits</p>
+
+      {/* Benefit pills (render in given order) */}
+      {benefitTags.length > 0 ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {benefitTags.map((tag, idx) => (
+            <span
+              key={idx}
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 shadow-sm ${
+                tagColorMap[tag] ||
+                "bg-emerald-50 text-emerald-900 ring-emerald-200"
+              }`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <Loadbox />
+      )}
+
+      {/* Key ingredients */}
+      <p className="mt-5 text-sm font-semibold text-emerald-900">
+        Key ingredients
+      </p>
+      {relevantIngredients && relevantIngredients.length > 0 ? (
+        <>
+          <ul className="mt-2 flex flex-wrap gap-2 pl-0">
+            {relevantIngredients.map((ingredient, idx) => (
+              <li
+                key={idx}
+                className="inline-block rounded-full bg-emerald-50 text-emerald-900 px-3 py-1 text-xs font-medium shadow ring-emerald-200"
+                style={{ listStyle: "none" }}
+              >
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <Loadbox />
+      )}
+    </section>
+  );
+}

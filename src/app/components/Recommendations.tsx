@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import RecommendationSummary from "./RecommendationSummary";
+import NoRecommendations from "./NoRecommendations";
 interface RecommendationsProductProps {
   products: {
     objectID: string;
@@ -16,16 +17,21 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
   const [productToAnalyze, setProductToAnalyze] = React.useState(
     products && products.length > 0 ? products[0] : null
   );
-  //const [loading, setLoading] = React.useState(false);
   const [relevantIngredients, setRelevantIngredients] = React.useState<
     string[]
   >([]);
   const [summary, setSummary] = React.useState<string>("");
+  const [benefitTags, setBenefitTags] = React.useState<string[]>([]);
+
+  const [displayingAnalysis, setDisplayingAnalysis] =
+    React.useState<boolean>(false);
 
   useEffect(() => {
-    // Analyze the selected product
-    console.log("Analyzing product:", productToAnalyze);
-  }, [productToAnalyze]);
+    // Update the analysis when relevant ingredients change
+    console.log("Relevant ingredients updated:", relevantIngredients);
+    console.log("Summary updated:", summary);
+    console.log("Benefit tags updated:", benefitTags);
+  }, [relevantIngredients, summary, benefitTags]);
 
   const handleAnalysis = async (product: {
     objectID: string;
@@ -36,39 +42,40 @@ const Recommendations = ({ products }: RecommendationsProductProps) => {
     ingredients: string[];
   }) => {
     //Extract relevant properties for analysis
+    setRelevantIngredients([]);
+    setSummary("");
+    setBenefitTags([]);
 
     setProductToAnalyze(product);
 
-    //logic for api call to analyze the product based on the ingredients
-    //set is loading true
-    //while loading, display spinner
-    //try to return the analysis result
-    //once parsing relevant ingredients is done, set loading to false
-    //display the relevant ingredients and why it is recommended
+    setDisplayingAnalysis(true);
     const res = await fetch("/api/recommendations", {
       method: "POST",
       body: JSON.stringify({ product: product }),
     });
     const result = await res.json();
-    const { ingredients, summary } = result;
-    console.log("Ingredients:", ingredients);
+    const { relevantIngredients, summary, benefitTags } = result;
+    console.log("Ingredients:", relevantIngredients);
     console.log("Summary:", summary);
-    setRelevantIngredients(ingredients);
+    setRelevantIngredients(relevantIngredients);
     setSummary(summary);
+    setBenefitTags(benefitTags);
   };
 
   return (
     <div className="w-full flex flex-col items-center my-1 border border-green-200/50 rounded-xl p-6 bg-gradient-to-br from-white/95 to-green-50/90 shadow-lg">
       <div className="flex flex-row gap-10">
         <div className="w-96">
-          <RecommendationSummary
-            productName={productToAnalyze?.product_names || "None"}
-            //set relevant ingredients to loading or the actually relevant ingredients
-            relevantIngredients={relevantIngredients || []}
-            //set summary to loading or the actual summary
-            summary={summary || ""}
-            //set rating to loading or the actual rating
-          />
+          {displayingAnalysis ? (
+            <RecommendationSummary
+              productName={productToAnalyze?.product_names || ""}
+              relevantIngredients={relevantIngredients || []}
+              summary={summary || ""}
+              benefitTags={benefitTags || []}
+            />
+          ) : (
+            <NoRecommendations />
+          )}
         </div>
         <div className="flex flex-row gap-5 overflow-x-auto mx-auto bg-green-50/20 p-4 rounded-lg shadow-inner">
           {products.map((product) => (

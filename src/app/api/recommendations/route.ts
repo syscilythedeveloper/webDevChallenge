@@ -150,13 +150,13 @@ Knowledge base (JSON): ${JSON.stringify(skincareIngredients)}
     const summary = cleaned.summary;
     const benefitTags = cleaned.benefit_tags;
     const relevantIngredients = cleaned.relevant_ingredients;
-    console.log("Summary:", summary);
-    console.log("Benefit Tags:", benefitTags);
-    console.log("Relevant Ingredients:", relevantIngredients);
 
-    return new Response(JSON.stringify({ relevantIngredients, summary }), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ relevantIngredients, summary, benefitTags }),
+      {
+        status: 200,
+      }
+    );
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
