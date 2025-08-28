@@ -100,8 +100,9 @@ Knowledge base (JSON): ${JSON.stringify(skincareIngredients)}
    - Avoid raw counts and percentages; use user-friendly language.
 
 2) benefit_tags:
-   - 2–5 short tags based on knowledge-base-backed benefits present in the formula.
-   - If no direct matches exist, include ["General care"] and any justified general tags (e.g., “Hydrating”, “Barrier-support”).
+   - 2–5 short **verb + noun phrases** (e.g., "Brightens skin", "Clears blemishes", "Hydrates deeply").
+   - Always written in plain user-friendly language.
+   - If no direct matches exist, include ["Provides general care"] and any justified general tags (e.g., "Supports barrier", "Soothes skin").
 
 3) relevant_ingredients:
    - 3–8 ingredients if directly linked to the concern by the knowledge base.
@@ -111,7 +112,7 @@ Knowledge base (JSON): ${JSON.stringify(skincareIngredients)}
 ### Return ONLY raw JSON. Do not use markdown or code fences. Do not add any explanations or notes outside the JSON.:
 {
   "summary": "2–3 sentences; begins with the user's concern; targeted/supportive/no-match logic applied; optional subtle trust markers.",
-  "benefit_tags": ["Tag1", "Tag2", "..."],
+  "benefit_tags": ["Verb + noun phrase", "Verb + noun phrase", "..."],
   "relevant_ingredients": ["Ingredient1", "Ingredient2", "..."]
 }
 
@@ -119,24 +120,23 @@ Knowledge base (JSON): ${JSON.stringify(skincareIngredients)}
 - No match:
 {
   "summary": "For dark spots, this product doesn’t include targeted brightening actives from our knowledge base. It functions as general care—supporting daily hydration and comfort—rather than directly fading discoloration.",
-  "benefit_tags": ["General care", "Hydrating"],
+  "benefit_tags": ["Provides general care", "Hydrates skin"],
   "relevant_ingredients": []
 }
 
 - Partial match:
 {
   "summary": "For acne-prone skin, this moisturizer offers supportive care with glycerin and allantoin to maintain hydration and reduce irritation while you use targeted treatments. Its gentle balance makes it suitable for daily use alongside actives.",
-  "benefit_tags": ["Soothing", "Hydrating", "Barrier-support"],
+  "benefit_tags": ["Soothes skin", "Hydrates deeply", "Supports barrier"],
   "relevant_ingredients": ["Glycerin", "Allantoin"]
 }
- - Full match: 
- {
-  "summary": "For dark spots, this serum combines niacinamide and vitamin C to brighten skin tone and fade discoloration. It’s well-rated by thousands of users, and its higher proportion of active ingredients makes it a strong choice for targeted dark-spot care.",
-  "benefit_tags": ["Brightening", "Tone-evening", "Dark-spot support"],
-  "relevant_ingredients": ["Niacinamide", "Vitamin C", "Licorice Root Extract"]
-}
 
-`;
+- Full match:
+{
+  "summary": "For dark spots, this serum combines niacinamide and vitamin C to brighten skin tone and fade discoloration. It’s well-rated by thousands of users, and its higher proportion of active ingredients makes it a strong choice for targeted dark-spot care.",
+  "benefit_tags": ["Brightens skin", "Evens tone", "Fades dark spots"],
+  "relevant_ingredients": ["Niacinamide", "Vitamin C", "Licorice Root Extract"]
+}`;
 
   try {
     const result = await model.generateContent(prompt);

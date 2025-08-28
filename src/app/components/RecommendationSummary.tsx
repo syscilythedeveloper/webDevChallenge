@@ -10,14 +10,14 @@ interface RecommendationSummaryProps {
   benefitTags?: string[];
 }
 
-const tagColorMap: Record<string, string> = {
-  Hydrating: "bg-emerald-50 text-emerald-900 ring-emerald-200",
-  Soothing: "bg-green-50 text-green-900 ring-green-200",
-  "Barrier-support": "bg-lime-50 text-lime-900 ring-lime-200",
-  Brightening: "bg-amber-50 text-amber-900 ring-amber-200",
-  "Oil-control": "bg-teal-50 text-teal-900 ring-teal-200",
-  "General care": "bg-neutral-50 text-neutral-800 ring-neutral-200",
-};
+const pillColors = [
+  "bg-emerald-50 text-emerald-900 ring-emerald-200",
+  "bg-lime-50 text-lime-900 ring-lime-200",
+  "bg-yellow-50 text-yellow-900 ring-yellow-200",
+  "bg-amber-50 text-amber-900 ring-amber-200",
+  "bg-blue-50 text-blue-900 ring-blue-200",
+  "bg-neutral-50 text-neutral-800 ring-neutral-200",
+];
 
 export default function RecommendationSummary({
   productName,
@@ -42,7 +42,11 @@ export default function RecommendationSummary({
         <>
           <div
             className="mt-2 text-sm leading-relaxed text-neutral-700"
-            style={{ minHeight: "90px", maxHeight: "90px", overflow: "scroll" }}
+            style={{
+              minHeight: "100px",
+              maxHeight: "100px",
+              overflow: "scroll",
+            }}
           >
             <Typewriter
               text={summary}
@@ -61,7 +65,7 @@ export default function RecommendationSummary({
         <div className="mt-5 grid grid-cols-2 gap-8 w-full items-start">
           {benefitTags.length > 0 && (
             <div className="flex flex-col items-start">
-              <h4 className="text-sm font-semibold text-gray-700 mb-2">
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 italic">
                 Skin Benefits
               </h4>
               <div className="flex flex-col gap-2">
@@ -69,8 +73,7 @@ export default function RecommendationSummary({
                   <span
                     key={idx}
                     className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 shadow-sm ${
-                      tagColorMap[tag] ||
-                      "bg-emerald-50 text-emerald-900 ring-emerald-200"
+                      pillColors[idx % pillColors.length]
                     }`}
                   >
                     {tag}
@@ -81,14 +84,16 @@ export default function RecommendationSummary({
           )}
           {relevantIngredients && relevantIngredients.length > 0 && (
             <div className="flex flex-col items-end">
-              <h4 className="text-sm font-semibold text-emerald-900 mb-2">
+              <h4 className="text-sm font-semibold text-emerald-900 mb-2 italic ">
                 Star Ingredients
               </h4>
               <ul className="flex flex-col gap-2 items-end pl-0">
                 {relevantIngredients.map((ingredient, idx) => (
                   <li
                     key={idx}
-                    className="inline-block rounded-full bg-emerald-50 text-emerald-900 px-3 py-1 text-xs font-medium shadow ring-1 ring-emerald-200"
+                    className={`inline-block rounded-full px-3 py-1 text-xs font-medium shadow ring-1 ${
+                      pillColors[idx % pillColors.length]
+                    }`}
                     style={{ listStyle: "none" }}
                   >
                     {ingredient}
