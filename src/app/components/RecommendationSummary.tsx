@@ -1,6 +1,7 @@
 import React from "react";
 import GradientView from "./seraui/gradient";
 import Loadbox from "./seraui/loadbox";
+import Typewriter from "./TypeWriter";
 
 interface RecommendationSummaryProps {
   relevantIngredients?: string[];
@@ -28,65 +29,75 @@ export default function RecommendationSummary({
     <section className="rounded-2xl border border-emerald-100 bg-white/60 p-4 shadow-sm backdrop-blur-sm dark:border-emerald-900/30 dark:bg-emerald-950/10">
       {/* Header */}
       <h3 className="text-xs font-semibold tracking-wide text-emerald-700">
-        Generating Analysis for
+        Ingredient Intelligence by Skincare AI:
       </h3>
 
       <GradientView productName={productName.trim()} />
 
       {/* Summary */}
-      <p className="mt-2 text-sm font-semibold text-emerald-900">Summary</p>
+      <p className="mt-2 text-xs font-semibold text-emerald-900">
+        The Science Behind Our Recommendation:
+      </p>
       {summary ? (
         <>
-          <p className="mt-5 text-sm leading-relaxed text-neutral-700">
-            {summary}
-          </p>
+          <div
+            className="mt-2 text-sm leading-relaxed text-neutral-700"
+            style={{ minHeight: "90px", maxHeight: "90px", overflow: "scroll" }}
+          >
+            <Typewriter
+              text={summary}
+              speed={15}
+              className="text-xs leading-relaxed text-neutral-700"
+            />
+          </div>
         </>
       ) : (
         <>
           <Loadbox />
         </>
       )}
-      <p className="mt-5 text-sm font-semibold text-emerald-900">Benefits</p>
-
-      {/* Benefit pills (render in given order) */}
-      {benefitTags.length > 0 ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {benefitTags.map((tag, idx) => (
-            <span
-              key={idx}
-              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 shadow-sm ${
-                tagColorMap[tag] ||
-                "bg-emerald-50 text-emerald-900 ring-emerald-200"
-              }`}
-            >
-              {tag}
-            </span>
-          ))}
+      {(benefitTags.length > 0 ||
+        (relevantIngredients && relevantIngredients.length > 0)) && (
+        <div className="mt-5 grid grid-cols-2 gap-8 w-full items-start">
+          {benefitTags.length > 0 && (
+            <div className="flex flex-col items-start">
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                Skin Benefits
+              </h4>
+              <div className="flex flex-col gap-2">
+                {benefitTags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 shadow-sm ${
+                      tagColorMap[tag] ||
+                      "bg-emerald-50 text-emerald-900 ring-emerald-200"
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {relevantIngredients && relevantIngredients.length > 0 && (
+            <div className="flex flex-col items-end">
+              <h4 className="text-sm font-semibold text-emerald-900 mb-2">
+                Star Ingredients
+              </h4>
+              <ul className="flex flex-col gap-2 items-end pl-0">
+                {relevantIngredients.map((ingredient, idx) => (
+                  <li
+                    key={idx}
+                    className="inline-block rounded-full bg-emerald-50 text-emerald-900 px-3 py-1 text-xs font-medium shadow ring-1 ring-emerald-200"
+                    style={{ listStyle: "none" }}
+                  >
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      ) : (
-        <Loadbox />
-      )}
-
-      {/* Key ingredients */}
-      <p className="mt-5 text-sm font-semibold text-emerald-900">
-        Key ingredients
-      </p>
-      {relevantIngredients && relevantIngredients.length > 0 ? (
-        <>
-          <ul className="mt-2 flex flex-wrap gap-2 pl-0">
-            {relevantIngredients.map((ingredient, idx) => (
-              <li
-                key={idx}
-                className="inline-block rounded-full bg-emerald-50 text-emerald-900 px-3 py-1 text-xs font-medium shadow ring-emerald-200"
-                style={{ listStyle: "none" }}
-              >
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <Loadbox />
       )}
     </section>
   );
